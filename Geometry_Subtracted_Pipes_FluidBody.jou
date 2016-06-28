@@ -83,15 +83,17 @@ split body 38
 split body 39
 split body 40
 
-subtract vol 45 to 48 from vol 11 to 15 keep
-delete vol 11 to 15
+subtract vol 45 to 48 from vol 11 to 15  37 to 44  keep
+delete vol 11 to 15 37 to 44
 
 brick x 24 y 24 z 150
-move Volume 54 z 6.5 include_merged
+move Volume 62  z 6.5 include_merged
 
-subtract volume 2 to 53 from volume 54 keep
-delete vol 54
+subtract volume 1 to 61 from volume 62 keep
+delete vol 62
 
+imprint body all 
+merge body all 
 
 
 
