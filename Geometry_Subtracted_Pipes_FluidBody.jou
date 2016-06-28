@@ -77,19 +77,21 @@ subtract body 2 11 from body 29 keep
 delete Volume 29
 subtract body 2 from body 30 32 34 36 keep 
 delete Volume 34 30 36 32
-brick x 24 y 24 z 150
-move Volume 49 z 6.5 include_merged
+
 split body 37
 split body 38
 split body 39
 split body 40
-subtract volume 2 7 8 9 10 11 12 13 14 15 16 17 18 19 20 37 38 39 40 41 42 43 44 45 46 47 48 from volume 49 keep
-delete Volume 49
-undo group begin
-imprint body all 
-merge body all 
-undo group end
-undo group begin
-imprint body all 
-merge body all 
-undo group end
+
+subtract vol 45 to 48 from vol 11 to 15 keep
+delete vol 11 to 15
+
+brick x 24 y 24 z 150
+move Volume 54 z 6.5 include_merged
+
+subtract volume 2 to 53 from volume 54 keep
+delete vol 54
+
+
+
+
