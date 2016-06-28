@@ -1,0 +1,95 @@
+reset
+create Cylinder height 137 radius 3.65125 
+create Cylinder height 137 radius 2.95021 
+create Cylinder height 137 radius 0.85725 
+create Cylinder height 137 radius 0.85725 
+create Cylinder height 137 radius 0.85725 
+create Cylinder height 137 radius 0.85725 
+create Cylinder height 137 radius 0.62611 
+create Cylinder height 137 radius 0.62611 
+create Cylinder height 137 radius 0.62611 
+create Cylinder height 137 radius 0.62611 
+subtract body 2 from body 1 keep 
+delete Volume 1
+move Volume 3 7 x 3.18799 y 3.18799 include_merged 
+move Volume 4 8 x -3.18799 y 3.18799 include_merged 
+move Volume 5 9 x -3.18799 y -3.18799 include_merged 
+move Volume 6 10 x 3.18799 y -3.18799 include_merged 
+subtract body 8 from body 4 keep 
+delete Volume 4
+subtract body 9 from body 5 keep 
+delete Volume 5
+subtract body 10 from body 6 keep 
+delete Volume 6
+subtract body 7 from body 3 keep 
+delete Volume 3
+create Cylinder height 0.70104 radius 3.65125 
+create Cylinder height 0.23114 radius 0.85725 
+create Cylinder height 0.23114 radius 0.85725 
+create Cylinder height 0.23114 radius 0.85725 
+create Cylinder height 0.23114 radius 0.85725 
+move Volume 16 z 68.85052 include_merged 
+move Volume 17  x 3.18799 y 3.18799 z 68.61557 include_merged preview 
+move Volume 17  x 3.18799 y 3.18799 z 68.61557 include_merged 
+move Volume 18 x -3.18799 y 3.18799 z 68.61557 include_merged 
+move Volume 19 x -3.18799 y -3.18799 z 68.61557 include_merged 
+move Volume 20 x 3.18799 y -3.18799 z 68.61557 include_merged
+create Cylinder height 3 radius 0.75 
+create Cylinder height 3 radius 0.75 
+create Cylinder height 3 radius 0.75 
+create Cylinder height 3 radius 0.75 
+create Cylinder height 3 radius 0.51886 
+create Cylinder height 3 radius 0.51886 
+create Cylinder height 3 radius 0.51886 
+create Cylinder height 3 radius 0.51886 
+rotate Volume 21 22 23 24 25 26 27 28 angle 90  about X include_merged 
+move Volume 21 22 23 24 25 26 27 28 z 66.5 include_merged 
+rotate Volume 21 angle 45  about Z include_merged 
+rotate Volume 24 23 28 27  angle 135  about Z include_merged 
+rotate Volume 22 25 26 angle 45  about Z include_merged 
+move Volume 23 27  x -2.0 y -2.0 include_merged 
+move Volume 24 28  x 2.0 y 2.0 include_merged 
+move Volume 25 21 x 2.0 y -2.0 include_merged 
+move Volume 22 26  x -2.0 y 2.0 include_merged 
+subtract body 7 15 from body 24 keep 
+delete Volume 24
+subtract body 7 from body 28 keep 
+delete Volume 28
+subtract body 8 12 from body 22 keep 
+delete Volume 22
+subtract body 8 from body 26 keep 
+delete Volume 26
+subtract body 9 13 from body 23 keep 
+delete Volume 23
+subtract body 9 from body 27 keep 
+delete Volume 27
+subtract body 10 14 from body 21 keep 
+delete Volume 21
+subtract body 10 from body 25 keep 
+delete Volume 25
+subtract body 2 11 from body 35 keep 
+delete Volume 35
+subtract body 2 11 from body 33 keep 
+delete Volume 33
+subtract body 2 11 from body 31 keep 
+delete Volume 31
+subtract body 2 11 from body 29 keep 
+delete Volume 29
+subtract body 2 from body 30 32 34 36 keep 
+delete Volume 34 30 36 32
+brick x 24 y 24 z 150
+move Volume 49 z 6.5 include_merged
+split body 37
+split body 38
+split body 39
+split body 40
+subtract volume 2 7 8 9 10 11 12 13 14 15 16 17 18 19 20 37 38 39 40 41 42 43 44 45 46 47 48 from volume 49 keep
+delete Volume 49
+undo group begin
+imprint body all 
+merge body all 
+undo group end
+undo group begin
+imprint body all 
+merge body all 
+undo group end
