@@ -1,0 +1,175 @@
+#{WallIntSide=6}
+#{WallIntTop=8}
+#{EdgeSize=7}
+#{Rtop=50}
+#{Rside=70}
+#{Ltop=100}
+#{Lside=200}
+#{MiddleImprintL=45}
+#{SideImprintL=70}
+#{Factor=1.3}
+create cylinder radius {Rside} height {Lside}
+vol 1 rotate 90 about y
+cylinder radius {Rtop} height {Ltop}
+volume 2 rotate 90 about x
+volume 2 move y {.5*Ltop}
+vol 2 rotate 90 about y
+unite vol 1 2
+#
+cylinder radius {Rtop} height {5*Ltop}
+volume 3 rotate 90 about x
+volume 3 rotate 45 about y
+web vol 1 tool 3
+web vol 4 cylinder radius {Rside} axis x
+section vol 3 yplane
+brick x {MiddleImprintL} y {5*Ltop} z {MiddleImprintL}
+subtract vol 6 from vol 3
+web vol 3 plan zplane rotate 45 about y
+web vol 3 7 plan zplane rotate -45 about y
+imprint vol 3 4 7 to 9
+del vol 3 7 to 9
+webcut vol 1 plan vertex 66 72 74
+webcut vol 1 plan vertex 65 71 73
+create cylinder radius {Rside} height {Lside}
+vol 13 rotate 90 about y
+volume 13 move x {Lside}
+brick x {5*Lside} y {SideImprintL} z {SideImprintL}
+subtract vol 14 from vol 13
+webcut vol 13 plan zplane rotate 45 about x
+webcut vol 13 15 plan zplane rotate -45 about x
+imprint vol 1 13 15 to 17
+del vol 13 15 to 17
+split curve 208 close_to vert 159
+split curve 296 close_to vert 160
+create curve vert 111 162 on surf 137
+create curve vert 112 161 on surf 137
+create curve vert 168 159
+create curve vert 169 160
+create surface curve 297 300 285 302
+create surface curve 299 302 281 303
+create surface curve 298 303 282 301
+unite body 19 to 21
+webcut vol 1 tool vol 18
+split curve 202 close_to vert 163
+split curve 329 close_to vert 164
+create curve vert 110 166 on surf 191
+create curve vert 109 165 on surf 191
+create curve vert 205 164
+create curve vert 204 163
+create surface curve 291 333 330 336
+create surface curve 287 336 332 335
+create surface curve 289 335 331 334
+unite body 23 to 25
+webcut vol 1 tool vol 22
+delete vol 18 22
+regularize vol 1
+volume 1 copy rotate 180 about y
+webcut vol 10 tool vol 26
+del vol 26
+create surf from surf 77 79 73 84 72 74 78 80 83
+regular vol 4
+imprint vol 4 29 to 37
+del vol 29 to 37
+imprint all
+#
+# section into 1/4 symmetric model
+#
+section vol all zplane
+section vol all xplane
+delete vol 10 12 21 27 28
+cyl rad {.5*(Rtop+Rside)} hei 5
+vol 38 rotate 90 about y
+vol 38 move x {.5*Lside+2.5}
+imprint all
+delete vol 38
+#
+# split more curves so they can be bias-meshed
+#
+split curve 353 359 fraction .5
+split curve 523 close_to vert 389
+split curve 568 close_to vert 389
+split curve 611 close_to vert 388
+split curve 613 close_to vert 388
+split curve 576 distance {.5*(Rside-Rtop)} from vert 384
+split curve 619 distance {.5*(Rside-Rtop)} from vert 383
+split curve 571 575 fraction .5
+#
+imprint all
+merge all
+#
+# BL mesh for horizontal pipe
+#
+curve 591 scheme bias factor {Factor} start vert 359
+curve 592 scheme bias factor {Factor} start vert 166
+curve 585 scheme bias factor {Factor} start vert 165
+curve 586 scheme bias factor {Factor} start vert 357
+
+curve 610 scheme bias factor {Factor} start vert 71
+curve 607 scheme bias factor {Factor} start vert 109
+
+curve 612 scheme bias factor {Factor} start vert 358
+curve 614 scheme bias factor {Factor} start vert 374
+curve 615 scheme bias factor {Factor} start vert 356
+curve 617 scheme bias factor {Factor} start vert 379
+
+curve 620 scheme bias factor {Factor} start vert 376
+curve 621 scheme bias factor {Factor} start vert 381
+
+curve 653 scheme bias factor {Factor} start vert 425
+curve 655 scheme bias factor {Factor} start vert 426
+
+curve 657 scheme bias factor {Factor} start vert 418
+curve 659 scheme bias factor {Factor} start vert 414
+
+#
+# BL mesh for vertical pipe
+#
+curve 535 scheme bias factor {Factor} start vert 361
+curve 483 scheme bias factor {Factor} start vert 73
+curve 561 scheme bias factor {Factor} start vert 377
+curve 626 scheme bias factor {Factor} start vert 358
+curve 623 scheme bias factor {Factor} start vert 376
+
+surf 302 sch map
+surf 304 sch pave
+#
+curve 591 592 585 586 607 610 612 614 615 617 620 621 interval {WallIntSide}
+curve 535 483 561 623 626 interval {WallIntTop}
+
+
+vol all size {EdgeSize}
+vol all sch auto
+
+#
+curv 562 int 3
+curve 593 int 12
+
+vol 4 5 sweep smooth off
+
+mesh vol all
+#
+vol all copy reflect x
+vol all copy reflect z
+merge all
+
+sideset 100 surf with x_coord > {0.49*Lside} 
+sideset 200 surf with y_coord > {0.99*Ltop}
+sideset 300 surf with x_coord < {-0.49*Lside} 
+
+group 'tmpgrp' equals unmerged
+tmpgrp remove surf with x_coord > {0.49*Lside}
+tmpgrp remove surf with x_coord < {-0.49*Lside}
+tmpgrp remove surf with y_coord > {0.99*Ltop}
+sideset 400 surf in tmpgrp
+
+group 'tmpedge' equals curve with x_coord > {0.49*Lside} in tmpgrp expand
+group 'tmpedge' add curve with x_coord < {-0.49*Lside} in tmpgrp expand
+group 'tmpedge' add curve with y_coord > {0.99*Ltop} in tmpgrp expand
+sideset 500 curve in tmpedge
+
+del tmpedge tmpgrp
+
+block 100 volume all
+block 200 surf in sideset 100 200 300
+
+save as 'tjunc6.cub' overwrite
