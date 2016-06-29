@@ -1,20 +1,33 @@
 reset
-create Cylinder height 137 radius 3.65125 
-create Cylinder height 137 radius 2.95021 
-create Cylinder height 137 radius 0.85725 
-create Cylinder height 137 radius 0.85725 
-create Cylinder height 137 radius 0.85725 
-create Cylinder height 137 radius 0.85725 
-create Cylinder height 137 radius 0.62611 
-create Cylinder height 137 radius 0.62611 
-create Cylinder height 137 radius 0.62611 
-create Cylinder height 137 radius 0.62611 
+#{InnerRadius=2.95021}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+#{CenterP=3.18799}
+#{MoveZ=68.61557}
+#{height1=0.70104}
+#{height2=0.23114}
+#{supportSteel=0.75}
+#{support=0.51886}
+
+create Cylinder height {Leng} radius {OuterRadius} 
+create Cylinder height {Leng} radius {InnerRadius}
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
 subtract body 2 from body 1 keep 
 delete Volume 1
-move Volume 3 7 x 3.18799 y 3.18799 include_merged 
-move Volume 4 8 x -3.18799 y 3.18799 include_merged 
-move Volume 5 9 x -3.18799 y -3.18799 include_merged 
-move Volume 6 10 x 3.18799 y -3.18799 include_merged 
+move Volume 3 7 x {CenterP} y {CenterP} include_merged 
+move Volume 4 8 x {-CenterP} y {CenterP} include_merged 
+move Volume 5 9 x {-CenterP} y {-CenterP} include_merged 
+move Volume 6 10 x {CenterP} y {-CenterP} include_merged 
 subtract body 8 from body 4 keep 
 delete Volume 4
 subtract body 9 from body 5 keep 
@@ -23,25 +36,25 @@ subtract body 10 from body 6 keep
 delete Volume 6
 subtract body 7 from body 3 keep 
 delete Volume 3
-create Cylinder height 0.70104 radius 3.65125 
-create Cylinder height 0.23114 radius 0.85725 
-create Cylinder height 0.23114 radius 0.85725 
-create Cylinder height 0.23114 radius 0.85725 
-create Cylinder height 0.23114 radius 0.85725 
+create Cylinder height {height1} radius {OuterRadius} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
 move Volume 16 z 68.85052 include_merged 
-move Volume 17  x 3.18799 y 3.18799 z 68.61557 include_merged preview 
-move Volume 17  x 3.18799 y 3.18799 z 68.61557 include_merged 
-move Volume 18 x -3.18799 y 3.18799 z 68.61557 include_merged 
-move Volume 19 x -3.18799 y -3.18799 z 68.61557 include_merged 
-move Volume 20 x 3.18799 y -3.18799 z 68.61557 include_merged
-create Cylinder height 3 radius 0.75 
-create Cylinder height 3 radius 0.75 
-create Cylinder height 3 radius 0.75 
-create Cylinder height 3 radius 0.75 
-create Cylinder height 3 radius 0.51886 
-create Cylinder height 3 radius 0.51886 
-create Cylinder height 3 radius 0.51886 
-create Cylinder height 3 radius 0.51886 
+move Volume 17  x {CenterP} y {CenterP} z {MoveZ} include_merged preview 
+move Volume 17  x {CenterP} y {CenterP} z {MoveZ} include_merged 
+move Volume 18 x {-CenterP} y {CenterP} z {MoveZ} include_merged 
+move Volume 19 x {-CenterP} y {-CenterP} z {MoveZ} include_merged 
+move Volume 20 x {CenterP} y {-CenterP} z {MoveZ} include_merged
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {support} 
+create Cylinder height 3 radius {support} 
+create Cylinder height 3 radius {support} 
+create Cylinder height 3 radius {support} 
 rotate Volume 21 22 23 24 25 26 27 28 angle 90  about X include_merged 
 move Volume 21 22 23 24 25 26 27 28 z 66.5 include_merged 
 rotate Volume 21 angle 45  about Z include_merged 
@@ -102,6 +115,8 @@ group 'steel_caps' add vol 16 to 20
 group 'steel' add vol 49 to 61
 
  group 'ext_fluid' add vol 63
+
+
 
 
 
