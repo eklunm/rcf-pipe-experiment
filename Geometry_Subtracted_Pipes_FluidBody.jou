@@ -95,5 +95,15 @@ delete vol 62
 imprint body all 
 merge body all 
 
+group 'int_fluid' add vol 2 7 to 10 45 to 48
+
+group 'steel_caps' add vol 16 to 20
+
+group 'steel' add vol 49 to 61
+
+ group 'ext_fluid' add vol 63
+
+
+
 
 
