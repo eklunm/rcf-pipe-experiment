@@ -1,3 +1,4 @@
+reset
 #{WallIntSide=6}
 #{WallIntTop=8}
 #{EdgeSize=7}
@@ -173,3 +174,4 @@ block 100 volume all
 block 200 surf in sideset 100 200 300
 
 save as 'tjunc6.cub' overwrite
+
