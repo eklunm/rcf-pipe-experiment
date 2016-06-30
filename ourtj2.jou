@@ -32,3 +32,32 @@ webcut volume 16 with plane vertex 58 vertex 80 vertex 81
 
 imprint vol all
 merge vol all
+
+
+surface 85 103 97 51 83 scheme pave
+volume 11 15 9 13 3  10 8 12  scheme sweep vector 0 -1 0
+
+ surface 104 105 scheme pave
+
+ volume 18 17 scheme sweep vector 0 0 -1
+
+mesh volume 3 13 9 15 11
+volume 6 scheme sweep source surface 75 target surface 73 sweep_transform least_squares
+volume 6 autosmooth_target on fixed_imprints off smart smooth on nlayers 5
+ volume 14 scheme sweep source surface 95 target surface 93 sweep_transform least_squares
+
+ volume 14 autosmooth_target on fixed_imprints off smart smooth on nlayers 5
+
+mesh vol 6 14 10 8 12
+
+mesh surf 104 105
+
+mesh  vol 17 18
+
+ volume 5 scheme sweep source surface 104 90 105 target surface 16 sweep_transform least_squares
+volume 5 autosmooth_target on fixed_imprints off smart smooth on nlayers 5
+volume 16 scheme sweep source surface 112 79 113 target surface 15 sweep_transform least_squares
+volume 16 autosmooth_target on fixed_imprints off smart smooth on nlayers 5
+
+
+
