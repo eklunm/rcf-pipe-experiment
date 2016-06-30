@@ -1,0 +1,39 @@
+reset
+#{support=0.51886}
+#{PipeInnRad=0.62611}
+cylinder height 2 radius {support}
+cylinder height 3 radius {PipeInnRad}
+rotate volume 1 angle 90 about x include_merged
+subtract volume 1 from volume 2 imprint keep
+ delete volume 2
+brick x {support}
+subtract volume 4 from volume 1 imprint keep
+delete volume 1
+ webcut volume 5 sweep surface 24 perpendicular distance 3 inward
+webcut volume 5 sweep surface 24 perpendicular distance -3 outward
+ merge volume all
+
+ webcut volume 5 3 with plane xplane rotate 45 about y imprint merge
+ webcut volume 5 3 8 9  with plane xplane rotate -45 about y imprint merge
+
+merge vol all
+ create curve vertex 73 14
+create curve vertex 43 9
+create surface curve 18 167 115 166
+webcut volume 5 with sheet surface 100
+create curve vertex 72 13
+ create curve vertex 10 48
+
+create curve vertex 16 47 
+create curve vertex 15 44
+create curve vertex 11 87 
+create curve vertex  12 86 
+dr vol 4 5 12 curve 183 to 188
+
+create surface curve 17 186 157 188
+create surface curve 20 184 117 183
+ create surface curve 19 185 156 187
+
+webcut volume 5 with sheet surface 110
+webcut volume 12 with sheet surface 111
+webcut volume 12 with sheet surface 109
