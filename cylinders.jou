@@ -1,0 +1,23 @@
+reset
+#{support=0.51886}
+#{PipeInnRad=0.62611}
+cylinder height 2 radius {support}
+cylinder height 3 radius {PipeInnRad}
+rotate volume 1 angle 90 about x include_merged
+subtract volume 2 from volume 1 imprint keep
+subtract volume 1 from volume 2 imprint keep
+delete vol 2
+split body 3
+subtract volume 4 from volume 1 imprint
+subtract volume 3 from volume 1 imprint keep
+delete vol 1
+merge volume all
+webcut volume 5  with plane xplane offset .4 noimprint nomerge 
+webcut volume 7  with plane xplane offset -.4 noimprint nomerge 
+imprint vol all
+merge vol all
+volume 6  Scheme Sweep  source surface 7    target surface 20  
+vol all scheme auto
+Surface 7 9 20 scheme circle
+mesh vol all
+
