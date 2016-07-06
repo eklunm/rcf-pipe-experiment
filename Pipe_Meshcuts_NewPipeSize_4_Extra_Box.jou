@@ -1,0 +1,175 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+#{CenterP=3.18799}
+#{MoveZ=68.61557}
+##{height1=0.70104}
+##{height2=0.23114}
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+##{WebcutBox=1.8}
+#{WebcutBox=0.6}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+#{OutsideWaterZ=150}
+#{OutsideBox=8.09048}
+
+create Cylinder height {Leng} radius {OuterRadius} 
+create Cylinder height {Leng} radius {InnerRadius}
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+subtract body 2 from body 1 keep 
+delete Volume 1
+move Volume 3 7 x {CenterP} y {CenterP} include_merged 
+move Volume 4 8 x {-CenterP} y {CenterP} include_merged 
+move Volume 5 9 x {-CenterP} y {-CenterP} include_merged 
+move Volume 6 10 x {CenterP} y {-CenterP} include_merged 
+subtract body 8 from body 4 keep 
+delete Volume 4
+subtract body 9 from body 5 keep 
+delete Volume 5
+subtract body 10 from body 6 keep 
+delete Volume 6
+subtract body 7 from body 3 keep 
+delete Volume 3
+create Cylinder height {height1} radius {OuterRadius} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+#move Volume 16 z 68.85052 include_merged 
+move Volume 16 z {Leng/2 + height1/2} include_merged
+move Volume 17  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged 
+move Volume 18 x {-CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged 
+move Volume 19 x {-CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged 
+move Volume 20 x {CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {supportSteel} 
+create Cylinder height 3 radius {support} 
+create Cylinder height 3 radius {support} 
+create Cylinder height 3 radius {support} 
+create Cylinder height 3 radius {support} 
+rotate Volume 21 22 23 24 25 26 27 28 angle 90  about X include_merged 
+move Volume 21 22 23 24 25 26 27 28 z 66.5 include_merged 
+rotate Volume 21 angle 45  about Z include_merged 
+rotate Volume 24 23 28 27  angle 135  about Z include_merged 
+rotate Volume 22 25 26 angle 45  about Z include_merged 
+move Volume 23 27  x -2.0 y -2.0 include_merged 
+move Volume 24 28  x 2.0 y 2.0 include_merged 
+move Volume 25 21 x 2.0 y -2.0 include_merged 
+move Volume 22 26  x -2.0 y 2.0 include_merged 
+subtract body 7 15 from body 24 keep 
+delete Volume 24
+subtract body 7 from body 28 keep 
+delete Volume 28
+subtract body 8 12 from body 22 keep 
+delete Volume 22
+subtract body 8 from body 26 keep 
+delete Volume 26
+subtract body 9 13 from body 23 keep 
+delete Volume 23
+subtract body 9 from body 27 keep 
+delete Volume 27
+subtract body 10 14 from body 21 keep 
+delete Volume 21
+subtract body 10 from body 25 keep 
+delete Volume 25
+subtract body 2 11 from body 35 keep 
+delete Volume 35
+subtract body 2 11 from body 33 keep 
+delete Volume 33
+subtract body 2 11 from body 31 keep 
+delete Volume 31
+subtract body 2 11 from body 29 keep 
+delete Volume 29
+subtract body 2 from body 30 32 34 36 keep 
+delete Volume 34 30 36 32
+
+split body 37
+split body 38
+split body 39
+split body 40
+
+subtract vol 45 to 48 from vol 11 to 15  37 to 44  keep
+delete vol 11 to 15 37 to 44
+
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+move Volume 62  z 6.5 include_merged
+
+subtract volume 1 to 61 from volume 62 keep
+delete vol 62
+
+imprint body all 
+merge body all 
+
+group 'int_fluid' add vol 2 7 to 10 45 to 48
+
+group 'steel_caps' add vol 16 to 20
+
+group 'steel' add vol 49 to 61
+
+ group 'ext_fluid' add vol 63
+
+webcut body 16 sweep surface 6 perpendicular outward through_all
+webcut body 17 sweep surface 21 perpendicular outward through_all
+webcut body 18 sweep surface 24 perpendicular outward through_all
+webcut body 19 sweep surface 27 perpendicular outward through_all
+webcut body 20 sweep surface 30 perpendicular outward through_all
+
+
+brick x {WebcutBox} y {WebcutBox} z 200
+brick x {WebcutBox} y {WebcutBox} z 200
+#brick x {WebcutBox} y {WebcutBox} z 150
+#brick x {WebcutBox} y {WebcutBox} z 150
+rotate Volume 69 angle 45  about Z include_merged 
+rotate Volume 70 angle 45  about Z include_merged 
+#rotate Volume 71 angle 45  about Z include_merged 
+#rotate Volume 72 angle 45  about Z include_merged 
+move Volume 69 x {OutsideWaterX} y {OutsideWaterY} include_merged 
+move Volume 70 x {-OutsideWaterX} y {OutsideWaterY} include_merged 
+#move Volume 71 x -5 y -5 include_merged 
+#move Volume 72 x 5 y -5 include_merged 
+
+#webcut body 10 56 20 sweep surface 370  perpendicular outward through_all 
+#webcut body 55 9 19 sweep surface 365  perpendicular outward through_all 
+#webcut body 8 54 18 sweep surface 356  perpendicular outward through_all
+#webcut body 17 7 57  sweep surface 351  perpendicular outward through_all 
+#webcut body 10 56 20 8 54 18 16 2 49 sweep surface 370  perpendicular outward through_all 
+#webcut body 55 9 19 17 7 57 86 16 87 88 2 89 49 sweep surface 365 perpendicular outward through_all
+#webcut body 78 98 9 70 55 53 99 100 17 7 57 97 19 79 sweep surface 365  perpendicular outward through_all 
+
+#webcut body 10 20 72 56 68 16 2 53 54 8 70 18 sweep surface 394  perpendicular outward through_all
+#webcut body 7 57 17 69 105 103 109 95 83 81 108 102 110 104 19 71 55 9   sweep surface 375  perpendicular outward through_all
+
+webcut body all sweep surface 381 perpendicular outward through_all
+webcut body all sweep surface 376 perpendicular outward through_all
+
+#delete volume 69 70 71 72
+delete volume 69 70
+
+brick x {OutsideBox} y {OutsideBox} z 1
+move volume 204 x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface 1515 perpendicular outward distance {Leng + height1}
+delete volume 204
+
+imprint body all 
+merge body all 
+volume all scheme Auto
+#Surface 5 6 53 253 154 scheme circle
+volume all size auto factor 1
+
+
