@@ -360,8 +360,3 @@ remove slivers volume all extend arealimit 0.1
 imprint body all 
 merge body all 
 volume all scheme Auto
-volume 45 46 47 48 54 55 56 57 58 59 60 61 89 90 91 92 142 143 144 145 212 215 216 296 297 298 299 317 318 319 320 sizing function type skeleton min_size auto max_size auto max_gradient 1.3 min_num_layers_3d 1 min_num_layers_2d 1 min_num_layers_1d 1 
-#volume all scheme SubMap
-#volume all size 0.7
-#Surface 5 6 53 253 154 scheme circle
-#volume all size auto factor 1
