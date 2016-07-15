@@ -1,0 +1,366 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+#{CenterP=3.18799}
+#{MoveZ=68.61557}
+##{height1=0.70104}
+##{height2=0.23114}
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+##{WebcutBox=1.8}
+##{WebcutBox=0.6}
+#{WebcutBox=0.8}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+##{OutsideWaterZ=Leng}
+#{OutsideWaterZ=150}
+##{OutsideBox=8.09048}
+##{OutsideBox=8.5}
+#{OutsideBox=11.44166654}
+#{OutsideBoxSmall=9}
+create cylinder height {Leng} radius {OuterRadius}
+create cylinder height {Leng} radius {InnerRadius}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+subtract body  ( at 0 0 0 ordinal 2 ordered )  from body  ( at 0 0 0 ordinal 1 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 1 ordered ) 
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 6 ordered )  x {CenterP} y {CenterP} include_merged
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 5 ordered )  x {-CenterP} y {CenterP} include_merged
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 4 ordered )  x {-CenterP} y {-CenterP} include_merged
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 3 ordered )  x {CenterP} y {-CenterP} include_merged
+subtract body  ( at -3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at -3.18799 3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at -3.18799 3.18799 0 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at -3.18799 -3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at -3.18799 -3.18799 0 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at 3.18799 -3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at 3.18799 -3.18799 0 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at 3.18799 3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at 3.18799 3.18799 0 ordinal 1 ordered ) 
+create cylinder height {height1} radius {OuterRadius}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+#move Volume 16 z 68.85052 include_merged 
+move volume  ( at 0 0 0 ordinal 3 ordered )  z {Leng/2 + height1/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {-CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {-CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {support} 
+#create Cylinder height 3 radius {support} 
+#create Cylinder height 3 radius {support} 
+#create Cylinder height 3 radius {support} 
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+rotate volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 at 0 0 0 ordinal 5 at 0 0 0 ordinal 6 at 0 0 0 ordinal 7 at 0 0 0 ordinal 8 at 0 0 0 ordinal 9 at 0 0 0 ordinal 10 ordered )  angle 90 about x include_merged
+move volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 at 0 0 0 ordinal 5 at 0 0 0 ordinal 6 at 0 0 0 ordinal 7 at 0 0 0 ordinal 8 at 0 0 0 ordinal 9 at 0 0 0 ordinal 10 ordered )  z {Leng/2 - 2} include_merged
+rotate volume  ( at 0 0 66.5 ordinal 1 ordered )  angle 45 about z include_merged
+rotate volume  ( at 0 0 66.5 ordinal 4 at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 8 at 0 0 66.5 ordinal 7 ordered )  angle 135 about z include_merged
+rotate volume  ( at 0 0 66.5 ordinal 2 at 0 0 66.5 ordinal 5 at 0 0 66.5 ordinal 6 ordered )  angle 45 about z include_merged
+move volume  ( at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 7 ordered )  x -2 y -2 include_merged
+move volume  ( at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 6 ordered )  x 2 y 2 include_merged
+move volume  ( at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 1 ordered )  x 2 y -2 include_merged
+move volume  ( at 0 0 66.5 ordinal 1 at 0 0 66.5 ordinal 2 ordered )  x -2 y 2 include_merged
+subtract body  ( at 3.18799 3.18799 0 ordinal 1 at 3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at 2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 3.18799 0 ordinal 1 ordered )  from body  ( at 2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at -2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 3.18799 0 ordinal 1 ordered )  from body  ( at -2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 -3.18799 0 ordinal 1 at -3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at -2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 -3.18799 0 ordinal 1 ordered )  from body  ( at -2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 -3.18799 0 ordinal 1 at 3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at 2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 -3.18799 0 ordinal 1 ordered )  from body  ( at 2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 0 0 0 ordinal 1 at 0 0 0 ordinal 2 ordered )  from body  ( at 1.91688 -1.91688 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 1.91688 -1.91688 66.5 ordinal 1 ordered ) 
+subtract body  ( at 0 0 0 ordinal 1 at 0 0 0 ordinal 2 ordered )  from body  ( at -1.91688 -1.91688 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -1.91688 -1.91688 66.5 ordinal 1 ordered ) 
+subtract body  ( at 0 0 0 ordinal 1 at 0 0 0 ordinal 2 ordered )  from body  ( at -1.91688 1.91688 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -1.91688 1.91688 66.5 ordinal 1 ordered ) 
+subtract body  ( at 0 0 0 ordinal 1 at 0 0 0 ordinal 2 ordered )  from body  ( at 1.91688 1.91688 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 1.91688 1.91688 66.5 ordinal 1 ordered ) 
+subtract body  ( at 0 0 0 ordinal 1 ordered )  from body  ( at 1.93977 1.93977 66.5 ordinal 1 at -1.93977 1.93977 66.5 ordinal 1 at -1.93977 -1.93977 66.5 ordinal 1 at 1.93977 -1.93977 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -1.93977 -1.93977 66.5 ordinal 1 at 1.93977 1.93977 66.5 ordinal 1 at 1.93977 -1.93977 66.5 ordinal 1 at -1.93977 1.93977 66.5 ordinal 1 ordered ) 
+split body  ( at 2.71059 -2.71059 66.5 ordinal 1 ordered ) 
+split body  ( at -2.71059 -2.71059 66.5 ordinal 1 ordered ) 
+split body  ( at -2.71059 2.71059 66.5 ordinal 1 ordered ) 
+split body  ( at 2.71059 2.71059 66.5 ordinal 1 ordered ) 
+subtract volume  ( at 2.56343 2.56343 66.5 ordinal 1 at -2.56343 2.56343 66.5 ordinal 1 at -2.56343 -2.56343 66.5 ordinal 1 at 2.56343 -2.56343 66.5 ordinal 1 ordered )  from volume  ( at 0 0 0 ordinal 2 at -3.18799 3.18799 0 ordinal 2 at -3.18799 -3.18799 0 ordinal 2 at 3.18799 -3.18799 0 ordinal 2 at 3.18799 3.18799 0 ordinal 2 at 3.00376 -2.28866 66.5 ordinal 1 at 2.28866 -3.00376 66.5 ordinal 1 at -2.28866 -3.00376 66.5 ordinal 1 at -3.00376 -2.28866 66.5 ordinal 1 at -3.00376 2.28866 66.5 ordinal 1 at -2.28866 3.00376 66.5 ordinal 1 at 2.28866 3.00376 66.5 ordinal 1 at 3.00376 2.28866 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 2 at -3.18799 3.18799 0 ordinal 2 at -3.18799 -3.18799 0 ordinal 2 at 3.18799 -3.18799 0 ordinal 2 at 3.18799 3.18799 0 ordinal 2 at 3.00376 -2.28866 66.5 ordinal 1 at 2.28866 -3.00376 66.5 ordinal 1 at -2.28866 -3.00376 66.5 ordinal 1 at -3.00376 -2.28866 66.5 ordinal 1 at -3.00376 2.28866 66.5 ordinal 1 at -2.28866 3.00376 66.5 ordinal 1 at 2.28866 3.00376 66.5 ordinal 1 at 3.00376 2.28866 66.5 ordinal 1 ordered ) 
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+#{if(Leng!=OutsideWaterZ)}
+move volume  ( at 0 0 0 ordinal 3 ordered )  z {(OutsideWaterZ-Leng)/2} include_merged
+##move Volume 62  z 6.5 include_merged
+#{endif}
+subtract volume  ( at 0 0 0 ordinal 1 at 3.18799 3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 1 at -3.18799 -3.18799 0 ordinal 1 at 3.18799 -3.18799 0 ordinal 1 at 0 0 68.7578 ordinal 1 at 3.18799 3.18799 68.7578 ordinal 1 at -3.18799 3.18799 68.7578 ordinal 1 at -3.18799 -3.18799 68.7578 ordinal 1 at 3.18799 -3.18799 68.7578 ordinal 1 at 2.56343 2.56343 66.5 ordinal 1 at -2.56343 2.56343 66.5 ordinal 1 at -2.56343 -2.56343 66.5 ordinal 1 at 2.56343 -2.56343 66.5 ordinal 1 at 0 0 0 ordinal 2 at -3.18799 3.18799 0 ordinal 2 at -3.18799 -3.18799 0 ordinal 2 at 3.18799 -3.18799 0 ordinal 2 at 3.18799 3.18799 0 ordinal 2 at 3.00376 -2.28866 66.5 ordinal 1 at 2.28866 -3.00376 66.5 ordinal 1 at -2.28866 -3.00376 66.5 ordinal 1 at -3.00376 -2.28866 66.5 ordinal 1 at -3.00376 2.28866 66.5 ordinal 1 at -2.28866 3.00376 66.5 ordinal 1 at 2.28866 3.00376 66.5 ordinal 1 at 3.00376 2.28866 66.5 ordinal 1 ordered )  from volume  ( at 0 0 6.5 ordinal 1 ordered )  keep
+delete volume  ( at 0 0 6.5 ordinal 1 ordered ) 
+imprint body all
+merge body all
+group "int_fluid" add volume  ( at 0 0 0 ordinal 1 at 3.18799 3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 1 at -3.18799 -3.18799 0 ordinal 1 at 3.18799 -3.18799 0 ordinal 1 at 2.56343 2.56343 66.5 ordinal 1 at -2.56343 2.56343 66.5 ordinal 1 at -2.56343 -2.56343 66.5 ordinal 1 at 2.56343 -2.56343 66.5 ordinal 1 ordered ) 
+group "steel_caps" add volume  ( at 0 0 68.7578 ordinal 1 at 3.18799 3.18799 68.7578 ordinal 1 at -3.18799 3.18799 68.7578 ordinal 1 at -3.18799 -3.18799 68.7578 ordinal 1 at 3.18799 -3.18799 68.7578 ordinal 1 ordered ) 
+group "steel" add volume  ( at -5e-10 0 0.000336563 ordinal 1 at -3.18799 3.18799 0.00134625 ordinal 1 at -3.18799 -3.18799 0.00134625 ordinal 1 at 3.18799 -3.18799 0.00134625 ordinal 1 at 3.18799 3.18799 0 ordinal 2 at 3.00376 -2.28866 66.5 ordinal 1 at 2.28866 -3.00376 66.5 ordinal 1 at -2.28866 -3.00376 66.5 ordinal 1 at -3.00376 -2.28866 66.5 ordinal 1 at -3.00376 2.28866 66.5 ordinal 1 at -2.28866 3.00376 66.5 ordinal 1 at 2.28866 3.00376 66.5 ordinal 1 at 3.00376 2.28866 66.5 ordinal 1 ordered ) 
+group "ext_fluid" add volume  ( at 0 0 6.5 ordinal 1 ordered ) 
+webcut body  ( at 0 0 68.7578 ordinal 1 ordered )  sweep surface  ( at 0 0 68.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at 3.18799 3.18799 68.7578 ordinal 1 ordered )  sweep surface  ( at 3.18799 3.18799 68.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at -3.18799 3.18799 68.7578 ordinal 1 ordered )  sweep surface  ( at -3.18799 3.18799 68.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at -3.18799 -3.18799 68.7578 ordinal 1 ordered )  sweep surface  ( at -3.18799 -3.18799 68.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at 3.18799 -3.18799 68.7578 ordinal 1 ordered )  sweep surface  ( at 3.18799 -3.18799 68.5 ordinal 1 ordered )  perpendicular outward through_all
+brick x {WebcutBox} y {WebcutBox} z 200
+brick x {WebcutBox} y {WebcutBox} z 200
+#brick x {WebcutBox} y {WebcutBox} z 150
+#brick x {WebcutBox} y {WebcutBox} z 150
+rotate volume  ( at 0 0 0 ordinal 2 ordered )  angle 45 about z include_merged
+rotate volume  ( at 0 0 0 ordinal 3 ordered )  angle 45 about z include_merged
+#rotate Volume 71 angle 45  about Z include_merged 
+#rotate Volume 72 angle 45  about Z include_merged 
+move volume  ( at 0 0 0 ordinal 2 ordered )  x {OutsideWaterX} y {OutsideWaterY} include_merged
+move volume  ( at 0 0 0 ordinal 2 ordered )  x {-OutsideWaterX} y {OutsideWaterY} include_merged
+#move Volume 71 x -5 y -5 include_merged 
+#move Volume 72 x 5 y -5 include_merged 
+#webcut body 10 56 20 sweep surface 370  perpendicular outward through_all 
+#webcut body 55 9 19 sweep surface 365  perpendicular outward through_all 
+#webcut body 8 54 18 sweep surface 356  perpendicular outward through_all
+#webcut body 17 7 57  sweep surface 351  perpendicular outward through_all 
+#webcut body 10 56 20 8 54 18 16 2 49 sweep surface 370  perpendicular outward through_all 
+#webcut body 55 9 19 17 7 57 86 16 87 88 2 89 49 sweep surface 365 perpendicular outward through_all
+#webcut body 78 98 9 70 55 53 99 100 17 7 57 97 19 79 sweep surface 365  perpendicular outward through_all 
+#webcut body 10 20 72 56 68 16 2 53 54 8 70 18 sweep surface 394  perpendicular outward through_all
+#webcut body 7 57 17 69 105 103 109 95 83 81 108 102 110 104 19 71 55 9   sweep surface 375  perpendicular outward through_all
+webcut body all sweep surface  ( at -23.7172 23.7172 0 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at 23.7172 23.7172 0 ordinal 1 ordered )  perpendicular outward through_all
+#delete volume 69 70 71 72
+delete volume  ( at 24 24 0 ordinal 1 at -24 24 0 ordinal 1 ordered ) 
+brick x {OutsideBox} y {OutsideBox} z 1
+rotate volume  ( at 0 0 0 ordinal 2 ordered )  angle 45 about z include_merged
+move volume  ( at 0 0 0 ordinal 2 ordered )  x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface  ( at 0 0 -68.5 ordinal 2 ordered )  perpendicular outward distance {Leng + height1}
+delete volume  ( at 0 0 -69 ordinal 1 ordered ) 
+#unite body 243 265
+#unite body 234 257
+#unite body 242 262
+#unite body 239 260
+#brick x {OutsideWaterX} y {OutsideWaterY} z 1
+#move volume 218 x 0 y 0 z {Leng/2 + height1 - 1/2}
+#webcut body all sweep surface 1878  perpendicular outward through_all 
+#delete volume 218
+## Cut corners off
+webcut body  ( at -6 6 6.5 ordinal 1 ordered )  sweep surface  ( at -6.28284 5.71716 6.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at -6 -6 6.5 ordinal 1 ordered )  sweep surface  ( at -6.28284 -5.71716 6.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at 6 -6 6.5 ordinal 1 ordered )  sweep surface  ( at 5.71716 -6.28284 6.5 ordinal 1 ordered )  perpendicular outward through_all
+webcut body  ( at 6 6 6.5 ordinal 1 ordered )  sweep surface  ( at 6.28284 5.71716 6.5 ordinal 1 ordered )  perpendicular outward through_all
+## Delete corners off
+delete volume  ( at -11.7172 11.7172 6.5 ordinal 1 at -11.7172 -11.7172 6.5 ordinal 1 at 11.7172 -11.7172 6.5 ordinal 1 at 11.7172 11.7172 6.5 ordinal 1 ordered ) 
+## webcut body all sweep surface 1743 1831 1766 1759 1754 1779 1157 1431 1522 1738 1750 1463 1445 1919 1806 1531 1812 1110 1105 1911 712 1857 1186 1541 1470 1103 691 1877 674 678 1792 1870 1195 1851 1818 1433 1182 1438 1843 1844 1096 1091 1869 1171 1424 1174 1161 1419 1907 1524 1117 703 699 1904 1863 1864 1539 1804 1909 1921 1844 1843 1870 1909 1477 vector 0,0,1 through_all
+webcut body all sweep surface  ( at 1.33227e-15 5.4698 69.0156 ordinal 1 at -5.4698 -3.10862e-15 69.0156 ordinal 1 at 2.66454e-15 -5.4698 69.0156 ordinal 1 at 5.4698 -1.77636e-15 69.0156 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at 3.0666 -2.44249e-15 69.0156 ordinal 1 at 1.55431e-15 3.0666 69.0156 ordinal 1 at -3.0666 -3.10862e-15 69.0156 ordinal 1 at 1.77636e-15 -3.0666 69.0156 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at 2.90381 -3.47217 69.0156 ordinal 1 at -2.90381 -3.47217 69.0156 ordinal 1 at -3.47217 -2.90381 69.0156 ordinal 1 at 3.47217 -2.90381 69.0156 ordinal 1 at 3.47217 2.90381 69.0156 ordinal 1 at 2.90381 3.47217 69.0156 ordinal 1 at -2.90381 3.47217 69.0156 ordinal 1 at -3.47217 2.90381 69.0156 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at 3.88468 3.88468 69.0156 ordinal 1 at 3.18799 3.18799 69.0156 ordinal 1 at -3.88468 3.88468 69.0156 ordinal 1 at -3.18799 3.18799 69.0156 ordinal 1 at -3.88468 -3.88468 69.0156 ordinal 1 at -3.18799 -3.18799 69.0156 ordinal 1 at 3.18799 -3.18799 69.0156 ordinal 1 at 3.88468 -3.88468 69.0156 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at 2.75874 2.43216 69.0156 ordinal 1 at 2.43216 2.75874 69.0156 ordinal 1 at 2.75759 -2.43331 69.0156 ordinal 1 at 2.43331 -2.75759 69.0156 ordinal 1 at -2.75759 -2.43331 69.0156 ordinal 1 at -2.43331 -2.75759 69.0156 ordinal 1 at -2.43331 2.75759 69.0156 ordinal 1 at -2.75759 2.43331 69.0156 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at -1.24098 1.24098 69.0156 ordinal 1 at 1.24098 1.24098 69.0156 ordinal 1 at 1.24098 -1.24098 69.0156 ordinal 1 at -1.24098 -1.24098 69.0156 ordinal 1 at 2.74962 2.74962 69.0156 ordinal 1 at 2.74962 -2.74962 69.0156 ordinal 1 at -2.74962 2.74962 69.0156 ordinal 1 at -2.74962 -2.74962 69.0156 ordinal 1 ordered )  perpendicular outward through_all
+## Small volumes at the water end
+unite volume  ( at 2.60907 -2.60907 75.2578 ordinal 1 at 2.74962 -2.74962 75.2578 ordinal 1 ordered ) 
+unite volume  ( at -2.74962 -2.74962 75.2578 ordinal 1 at -2.60907 -2.60907 75.2578 ordinal 1 ordered ) 
+unite volume  ( at -2.74962 2.74962 75.2578 ordinal 1 at -2.60907 2.60907 75.2578 ordinal 1 ordered ) 
+unite volume  ( at 2.43216 2.75874 75.2578 ordinal 1 at 2.74962 2.74962 75.2578 ordinal 1 at 2.75874 2.43216 75.2578 ordinal 1 ordered ) 
+## Another box to dissect the 4 outer tubes
+brick x {OutsideBoxSmall} y {OutsideBoxSmall} z 1
+rotate volume  ( at 0 0 0 ordinal 2 ordered )  angle 45 about z include_merged
+move volume  ( at 0 0 0 ordinal 2 ordered )  x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface  ( at 0 0 -68.5 ordinal 2 ordered )  perpendicular outward through_all
+delete volume  ( at 0 0 -69 ordinal 1 ordered ) 
+## Merge small volumes with larger ones
+unite volume  ( at -2.43216 -2.75874 -1.375 ordinal 1 at -2.75874 -2.43216 -1.375 ordinal 1 at -2.74962 -2.74962 -1.25943 ordinal 1 ordered ) 
+unite volume  ( at -2.43216 2.75874 -1.375 ordinal 1 at -2.75874 2.43216 -1.375 ordinal 1 at -2.74962 2.74962 -1.25943 ordinal 1 ordered ) 
+unite volume  ( at 2.75874 2.43216 -1.375 ordinal 1 at 2.43216 2.75874 -1.375 ordinal 1 at 2.74962 2.74962 -1.25943 ordinal 1 ordered ) 
+unite volume  ( at 2.43216 -2.75874 -1.375 ordinal 1 at 2.75874 -2.43216 -1.375 ordinal 1 at 2.74962 -2.74962 -1.25943 ordinal 1 ordered ) 
+## Side tube connectors
+webcut body all sweep surface  ( at -3.13693 -2.18273 65.75 ordinal 1 at -2.18273 3.13693 65.75 ordinal 1 at -3.13693 2.18273 65.75 ordinal 1 at -2.18273 -3.13693 65.75 ordinal 1 at 2.18273 -3.13693 65.75 ordinal 1 at 3.13693 -2.18273 65.75 ordinal 1 at 3.13693 2.18273 65.75 ordinal 1 at 2.18273 3.13693 65.75 ordinal 1 ordered )  perpendicular outward through_all
+webcut body all sweep surface  ( at 2.18273 3.13693 67.25 ordinal 1 at -2.18273 3.13693 67.25 ordinal 1 at -3.13693 2.18273 67.25 ordinal 1 at -3.13693 -2.18273 67.25 ordinal 1 at -2.18273 -3.13693 67.25 ordinal 1 at 2.18273 -3.13693 67.25 ordinal 1 at 3.13693 -2.18273 67.25 ordinal 1 at 3.13693 2.18273 67.25 ordinal 1 ordered )  perpendicular outward through_all
+## Merge sides
+#unite volume 168 48
+#unite volume 72  47
+#unite volume 169 46
+#unite volume 71  45
+## More merging
+#unite volume 361 54
+## Cutting individual pieces
+webcut volume  ( at 3.13693 -2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at 2.96074 -2.27887 65.9811 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at 3.13693 -2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at 2.96074 -2.27887 67.0189 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at 3.17363 -2.18026 66.5 ordinal 1 ordered )  sweep surface  ( at 2.99743 -2.26365 66.5 ordinal 2 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.18273 -3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at 2.27887 -2.96074 65.9811 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at 2.18273 -3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at 2.27887 -2.96074 67.0189 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -2.18273 -3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at -2.27887 -2.96074 65.9811 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -2.18273 -3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at -2.27887 -2.96074 67.0189 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -3.13693 -2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at -2.96074 -2.27887 65.9811 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -3.13693 -2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at -2.96074 -2.27887 67.0189 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -3.13693 2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at -2.96074 2.27887 65.9811 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -3.13693 2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at -2.96074 2.27887 67.0189 ordinal 2 ordered )  perpendicular outward through_all
+webcut volume  ( at -2.18273 3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at -2.27887 2.96074 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+webcut volume  ( at -2.18273 3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at -2.27887 2.96074 65.9811 ordinal 1 ordered )  perpendicular outward through_all
+webcut volume  ( at 2.18273 3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at 2.27887 2.96074 65.9811 ordinal 1 ordered )  perpendicular outward through_all
+webcut volume  ( at 2.18273 3.13693 66.5 ordinal 1 ordered )  sweep surface  ( at 2.27887 2.96074 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+webcut volume  ( at 3.13693 2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at 2.96074 2.27887 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+webcut volume  ( at 3.13693 2.18273 66.5 ordinal 1 ordered )  sweep surface  ( at 2.96074 2.27887 65.9811 ordinal 1 ordered )  perpendicular outward through_all
+webcut volume  ( at 3.17363 2.18026 66.5 ordinal 1 ordered )  sweep surface  ( at 2.26365 2.99743 65.8656 ordinal 1 ordered )  perpendicular inward through_all
+## Separate volumes:
+webcut volume  ( at -2.19654 2.89452 66.5 ordinal 1 ordered )  sweep surface  ( at -2.27887 2.96074 65.9811 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -2.89452 2.19654 66.5 ordinal 1 ordered )  sweep surface  ( at -2.96074 2.27887 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.89452 -2.19654 66.5 ordinal 1 ordered )  sweep surface  ( at 2.96074 -2.27887 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.19654 -2.89452 66.5 ordinal 1 ordered )  sweep surface  ( at 2.27887 -2.96074 65.9811 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.89452 2.19654 66.5 ordinal 1 ordered )  sweep surface  ( at 2.96074 2.27887 65.9811 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.19654 2.89452 66.5 ordinal 1 ordered )  sweep surface  ( at 2.27887 2.96074 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -2.19654 -2.89452 66.5 ordinal 1 ordered )  sweep surface  ( at -2.27887 -2.96074 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -2.89452 -2.19654 66.5 ordinal 1 ordered )  sweep surface  ( at -2.96074 -2.27887 65.9811 ordinal 1 ordered )  perpendicular inward through_all
+###############################################################################
+## CONFIRMED: able to mesh up to this point automatically, after this, it doesn't work
+## 16 volume(s) did not mesh. Volume(s) 45 46 47 48 182 212 215 216 296 297 298 299 317 318 319 320 did not mesh.
+##############################################################################
+## Separate volumes using curves:
+## Volume 212:
+#webcut volume 212  sweep curve 3425 3414  along curve 3661  
+#webcut volume 212  sweep curve 1099  along curve 3662  
+#webcut volume 212  sweep curve 1106  along curve 3661  
+#delete Volume 212
+## Volume 215:
+#webcut volume 215  sweep curve 1094 2123  along curve 3689  
+#webcut volume 215  sweep curve 1114  along curve 3689  
+#webcut volume 215  sweep curve 6286  along curve 3689  
+#delete volume 215
+## Volume 216:
+#webcut volume 216  sweep curve 1104 2118  along curve 3700
+#webcut volume 216  sweep curve 1105  along curve 3700
+#webcut volume 216  sweep curve 1109  along curve 3700
+#delete volume 216
+## Continue separating:
+## Volume 296:
+#webcut volume 296  sweep surface 845  perpendicular inward through_all 
+#webcut volume 296  sweep surface 842  perpendicular inward through_all 
+## Volume 297:
+#webcut volume 297  sweep surface 852  perpendicular inward through_all 
+#webcut volume 297  sweep surface 852  perpendicular outward through_all 
+## Volume 298:
+#webcut volume 298  sweep surface 888  perpendicular inward through_all 
+#webcut volume 298  sweep surface 888  perpendicular outward through_all 
+## Volume 299:
+#webcut volume 299  sweep surface 895  perpendicular inward through_all 
+#webcut volume 299  sweep surface 895  perpendicular outward through_all 
+## Volume 317:
+#webcut volume 317  sweep surface 1273  perpendicular inward through_all 
+#webcut volume 317  sweep surface 1273  perpendicular outward through_all 
+## Volume 318:
+#webcut volume 318  sweep surface 1280  perpendicular inward through_all 
+#webcut volume 318  sweep surface 1280  perpendicular outward through_all
+## Volume 319:
+#webcut volume 319  sweep surface 1315  perpendicular inward through_all 
+#webcut volume 319  sweep surface 1315  perpendicular outward through_all
+## Volume 320:
+#webcut volume 320  sweep surface 1316  perpendicular inward through_all 
+#webcut volume 320  sweep surface 1316  perpendicular outward through_all
+## Continue separating:
+## Volume 45:
+#webcut Volume 45  sweep surface 1227  perpendicular inward through_all 
+#webcut Volume 45  sweep surface 1228  perpendicular inward through_all 
+#webcut Volume 45  sweep surface 1224  perpendicular inward through_all  
+#webcut body 510 511 512  sweep curve 6565  along curve 2453  
+#webcut body 157  sweep curve 6565  along curve 2457  
+## Volume 46:
+#webcut Volume 46  sweep surface 745  perpendicular inward through_all 
+#webcut Volume 46  sweep surface 749  perpendicular inward through_all 
+#webcut Volume 46  sweep surface 741  perpendicular inward through_all
+#webcut body 516 517 81  sweep curve 6606  along curve 1472  
+#webcut body 515  sweep curve 6606  along curve 1478  
+## Volume 47:
+#webcut Volume 47  sweep surface 1263  perpendicular inward through_all 
+#webcut Volume 47  sweep surface 1261  perpendicular inward through_all 
+#webcut Volume 47  sweep surface 1258  perpendicular inward through_all 
+#webcut body 521 158 522  sweep curve 6661  along curve 2525  
+#webcut body 520  sweep curve 6661  along curve 2519  
+## Volume 48:
+#webcut Volume 48  sweep surface 780  perpendicular inward through_all 
+#webcut Volume 48  sweep surface 771  perpendicular inward through_all 
+#webcut Volume 48  sweep surface 775  perpendicular inward through_all 
+#webcut body 82 526 527  sweep curve 6707  along curve 1537  
+#webcut body 525  sweep curve 6707  along curve 1535  
+## Volume 182:
+#webcut volume 182  sweep curve 962  along curve 3134  
+remove slivers volume all extend arealimit 0.1
+imprint body all
+merge body all
+regularize volume  ( at 2.52325 2.52325 66.5 ordinal 1 at -2.52325 2.52325 66.5 ordinal 1 at -2.52325 -2.52325 66.5 ordinal 1 at 2.52325 -2.52325 66.5 ordinal 1 ordered ) 
+regularize volume  ( at -2.60907 -2.60907 68.1335 ordinal 1 at 2.60907 -2.60907 68.1335 ordinal 1 at -2.60907 2.60907 68.1335 ordinal 1 ordered ) 
+regularize volume  ( at 2.3827 2.3827 67.7598 ordinal 1 ordered ) 
+#regularize volume 423 to 438
+volume all scheme auto
+# Volume 212:
+webcut volume  ( at -2.60907 -2.60907 68.1335 ordinal 1 ordered )  sweep curve  ( at -2.58278 -2.58087 68.1328 ordinal 1 ordered )  along curve  ( at -2.89191 -2.32623 69.0156 ordinal 1 ordered ) 
+webcut volume  ( at -2.60907 -2.60907 68.1335 ordinal 1 ordered )  sweep curve  ( at -2.58087 -2.58278 68.1328 ordinal 2 ordered )  along curve  ( at -2.89191 -2.32623 69.0156 ordinal 1 ordered ) 
+delete volume  ( at -2.60907 -2.60907 68.1335 ordinal 1 ordered ) 
+# Volume 215:
+webcut volume  ( at 2.60907 -2.60907 68.1335 ordinal 1 ordered )  sweep curve  ( at 2.58278 -2.58087 68.1328 ordinal 1 ordered )  along curve  ( at 2.89191 -2.32623 69.0156 ordinal 1 ordered ) 
+webcut volume  ( at 2.60907 -2.60907 68.1335 ordinal 1 ordered )  sweep curve  ( at 2.58087 -2.58278 68.1328 ordinal 2 ordered )  along curve  ( at 2.89191 -2.32623 69.0156 ordinal 1 ordered ) 
+delete volume  ( at 2.60907 -2.60907 68.1335 ordinal 1 ordered ) 
+# Volume 216:
+webcut volume  ( at -2.60907 2.60907 68.1335 ordinal 1 ordered )  sweep curve  ( at -2.58278 2.58087 68.1328 ordinal 1 ordered )  along curve  ( at -2.32623 2.89191 67.25 ordinal 1 ordered ) 
+webcut volume  ( at -2.60907 2.60907 68.1335 ordinal 1 ordered )  sweep curve  ( at -2.58087 2.58278 68.1328 ordinal 2 ordered )  along curve  ( at -2.32623 2.89191 67.25 ordinal 1 ordered ) 
+delete volume  ( at -2.60907 2.60907 68.1335 ordinal 1 ordered ) 
+regularize volume  ( at -2.53502 3.36141 0 ordinal 1 at -3.36141 2.53502 5.00009e-10 ordinal 1 at 3.36141 -2.53502 3.41061e-13 ordinal 1 at 2.53502 -3.36141 0 ordinal 1 at -2.53502 -3.36141 0 ordinal 1 at -3.36141 -2.53502 0 ordinal 1 at 3.36141 2.53502 0 ordinal 1 at 2.53502 3.36141 0 ordinal 1 ordered ) 
+## Continue separating:
+## Volume 296:
+webcut volume  ( at -2.53502 3.36141 0 ordinal 1 ordered )  sweep surface  ( at -2.45594 3.1209 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+## Volume 297:
+webcut volume  ( at -3.36141 2.53502 5.00009e-10 ordinal 1 ordered )  sweep surface  ( at -3.1209 2.45594 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -3.36141 2.53502 5.00009e-10 ordinal 1 ordered )  sweep surface  ( at -3.1209 2.45594 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+## Volume 298:
+webcut volume  ( at 3.36141 -2.53502 3.41061e-13 ordinal 1 ordered )  sweep surface  ( at 3.1209 -2.45594 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 3.36141 -2.53502 -7.10543e-15 ordinal 1 ordered )  sweep surface  ( at 3.1209 -2.45594 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+## Volume 299:
+webcut volume  ( at 2.53502 -3.36141 0 ordinal 1 ordered )  sweep surface  ( at 2.45594 -3.1209 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.53502 -3.36141 -7.10543e-15 ordinal 1 ordered )  sweep surface  ( at 2.45594 -3.1209 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+## Volume 317:
+webcut volume  ( at -2.53502 -3.36141 0 ordinal 1 ordered )  sweep surface  ( at -2.45594 -3.1209 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -2.53502 -3.36141 0 ordinal 1 ordered )  sweep surface  ( at -2.45594 -3.1209 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+## Volume 318:
+webcut volume  ( at -3.36141 -2.53502 0 ordinal 1 ordered )  sweep surface  ( at -3.1209 -2.45594 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -3.36141 -2.53502 -7.10543e-15 ordinal 1 ordered )  sweep surface  ( at -3.1209 -2.45594 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+## Volume 319:
+webcut volume  ( at 3.36141 2.53502 0 ordinal 1 ordered )  sweep surface  ( at 3.1209 2.45594 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 3.36141 2.53502 -7.10543e-15 ordinal 1 ordered )  sweep surface  ( at 3.1209 2.45594 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+## Volume 320:
+webcut volume  ( at 2.53502 3.36141 0 ordinal 1 ordered )  sweep surface  ( at 2.45594 3.1209 67.0189 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.53502 3.36141 0 ordinal 1 ordered )  sweep surface  ( at 2.45594 3.1209 67.0189 ordinal 1 ordered )  perpendicular outward through_all
+mesh volume all
+## Attempt meshing volume 120 again:
+mesh volume  ( at 2.70684 -2.70684 -1.25943 ordinal 1 ordered ) 
+#volume all scheme SubMap
+#volume all size 0.7
+#Surface 5 6 53 253 154 scheme circle
+#volume all size auto factor 1
