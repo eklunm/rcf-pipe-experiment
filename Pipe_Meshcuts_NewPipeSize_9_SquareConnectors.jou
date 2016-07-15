@@ -1,0 +1,428 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+#{CenterP=3.18799}
+#{MoveZ=68.61557}
+##{height1=0.70104}
+##{height2=0.23114}
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+##{WebcutBox=1.8}
+##{WebcutBox=0.6}
+#{WebcutBox=0.8}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+##{OutsideWaterZ=Leng}
+#{OutsideWaterZ=150}
+##{OutsideBox=8.09048}
+##{OutsideBox=8.5}
+#{OutsideBox=11.44166654}
+#{OutsideBoxSmall=9}
+
+create Cylinder height {Leng} radius {OuterRadius} 
+create Cylinder height {Leng} radius {InnerRadius}
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeOutRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+create Cylinder height {Leng} radius {PipeInnRad} 
+subtract body 2 from body 1 keep 
+delete Volume 1
+move Volume 3 7 x {CenterP} y {CenterP} include_merged 
+move Volume 4 8 x {-CenterP} y {CenterP} include_merged 
+move Volume 5 9 x {-CenterP} y {-CenterP} include_merged 
+move Volume 6 10 x {CenterP} y {-CenterP} include_merged 
+subtract body 8 from body 4 keep 
+delete Volume 4
+subtract body 9 from body 5 keep 
+delete Volume 5
+subtract body 10 from body 6 keep 
+delete Volume 6
+subtract body 7 from body 3 keep 
+delete Volume 3
+create Cylinder height {height1} radius {OuterRadius} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+create Cylinder height {height2} radius {PipeOutRad} 
+#move Volume 16 z 68.85052 include_merged 
+move Volume 16 z {Leng/2 + height1/2} include_merged
+move Volume 17  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged 
+move Volume 18 x {-CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged 
+move Volume 19 x {-CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged 
+move Volume 20 x {CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {supportSteel} 
+#create Cylinder height 3 radius {support} 
+#create Cylinder height 3 radius {support} 
+#create Cylinder height 3 radius {support} 
+#create Cylinder height 3 radius {support} 
+
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+
+rotate Volume 21 22 23 24 25 26 27 28 angle 90  about X include_merged 
+move Volume 21 22 23 24 25 26 27 28 z {Leng/2 - 2} include_merged 
+rotate Volume 21 angle 45  about Z include_merged 
+rotate Volume 24 23 28 27  angle 135  about Z include_merged 
+rotate Volume 22 25 26 angle 45  about Z include_merged 
+move Volume 23 27  x -2.0 y -2.0 include_merged 
+move Volume 24 28  x 2.0 y 2.0 include_merged 
+move Volume 25 21 x 2.0 y -2.0 include_merged 
+move Volume 22 26  x -2.0 y 2.0 include_merged 
+subtract body 7 15 from body 24 keep 
+delete Volume 24
+subtract body 7 from body 28 keep 
+delete Volume 28
+subtract body 8 12 from body 22 keep 
+delete Volume 22
+subtract body 8 from body 26 keep 
+delete Volume 26
+subtract body 9 13 from body 23 keep 
+delete Volume 23
+subtract body 9 from body 27 keep 
+delete Volume 27
+subtract body 10 14 from body 21 keep 
+delete Volume 21
+subtract body 10 from body 25 keep 
+delete Volume 25
+subtract body 2 11 from body 35 keep 
+delete Volume 35
+subtract body 2 11 from body 33 keep 
+delete Volume 33
+subtract body 2 11 from body 31 keep 
+delete Volume 31
+subtract body 2 11 from body 29 keep 
+delete Volume 29
+subtract body 2 from body 30 32 34 36 keep 
+delete Volume 34 30 36 32
+
+split body 37
+split body 38
+split body 39
+split body 40
+
+subtract vol 45 to 48 from vol 11 to 15  37 to 44  keep
+delete vol 11 to 15 37 to 44
+
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+
+#{If(Leng!=OutsideWaterZ)}
+  move Volume 62  z {(OutsideWaterZ-Leng)/2} include_merged
+##move Volume 62  z 6.5 include_merged
+#{EndIf}
+
+subtract volume 1 to 61 from volume 62 keep
+delete vol 62
+
+imprint body all 
+merge body all 
+
+group 'int_fluid' add vol 2 7 to 10 45 to 48
+
+group 'steel_caps' add vol 16 to 20
+
+group 'steel' add vol 49 to 61
+
+ group 'ext_fluid' add vol 63
+
+webcut body 16 sweep surface 6 perpendicular outward through_all
+webcut body 17 sweep surface 21 perpendicular outward through_all
+webcut body 18 sweep surface 24 perpendicular outward through_all
+webcut body 19 sweep surface 27 perpendicular outward through_all
+webcut body 20 sweep surface 30 perpendicular outward through_all
+
+
+brick x {WebcutBox} y {WebcutBox} z 200
+brick x {WebcutBox} y {WebcutBox} z 200
+#brick x {WebcutBox} y {WebcutBox} z 150
+#brick x {WebcutBox} y {WebcutBox} z 150
+rotate Volume 69 angle 45  about Z include_merged 
+rotate Volume 70 angle 45  about Z include_merged 
+#rotate Volume 71 angle 45  about Z include_merged 
+#rotate Volume 72 angle 45  about Z include_merged 
+move Volume 69 x {OutsideWaterX} y {OutsideWaterY} include_merged 
+move Volume 70 x {-OutsideWaterX} y {OutsideWaterY} include_merged 
+#move Volume 71 x -5 y -5 include_merged 
+#move Volume 72 x 5 y -5 include_merged 
+
+#webcut body 10 56 20 sweep surface 370  perpendicular outward through_all 
+#webcut body 55 9 19 sweep surface 365  perpendicular outward through_all 
+#webcut body 8 54 18 sweep surface 356  perpendicular outward through_all
+#webcut body 17 7 57  sweep surface 351  perpendicular outward through_all 
+#webcut body 10 56 20 8 54 18 16 2 49 sweep surface 370  perpendicular outward through_all 
+#webcut body 55 9 19 17 7 57 86 16 87 88 2 89 49 sweep surface 365 perpendicular outward through_all
+#webcut body 78 98 9 70 55 53 99 100 17 7 57 97 19 79 sweep surface 365  perpendicular outward through_all 
+
+#webcut body 10 20 72 56 68 16 2 53 54 8 70 18 sweep surface 394  perpendicular outward through_all
+#webcut body 7 57 17 69 105 103 109 95 83 81 108 102 110 104 19 71 55 9   sweep surface 375  perpendicular outward through_all
+
+webcut body all sweep surface 581 perpendicular outward through_all
+webcut body all sweep surface 576 perpendicular outward through_all
+
+#delete volume 69 70 71 72
+delete volume 69 70
+
+
+brick x {OutsideBox} y {OutsideBox} z 1
+rotate Volume 204 angle 45  about Z include_merged 
+move volume 204 x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface 1768 perpendicular outward distance {Leng + height1}
+delete volume 204
+
+#unite body 243 265
+#unite body 234 257
+#unite body 242 262
+#unite body 239 260
+
+#brick x {OutsideWaterX} y {OutsideWaterY} z 1
+#move volume 218 x 0 y 0 z {Leng/2 + height1 - 1/2}
+#webcut body all sweep surface 1878  perpendicular outward through_all 
+#delete volume 218
+
+## Cut corners off
+webcut body 243  sweep surface 1829  perpendicular outward through_all 
+webcut body 239  sweep surface 1830  perpendicular outward through_all 
+webcut body 242  sweep surface 1815  perpendicular outward through_all 
+webcut body 234  sweep surface 1776  perpendicular outward through_all 
+## Delete corners off
+delete volume 199 195 198 190
+
+## webcut body all sweep surface 1743 1831 1766 1759 1754 1779 1157 1431 1522 1738 1750 1463 1445 1919 1806 1531 1812 1110 1105 1911 712 1857 1186 1541 1470 1103 691 1877 674 678 1792 1870 1195 1851 1818 1433 1182 1438 1843 1844 1096 1091 1869 1171 1424 1174 1161 1419 1907 1524 1117 703 699 1904 1863 1864 1539 1804 1909 1921 1844 1843 1870 1909 1477 vector 0,0,1 through_all
+
+webcut body all sweep surface 1792 1831 1818 1779  perpendicular outward through_all 
+webcut body all sweep surface 1522 1524 1541 1539  perpendicular outward through_all
+webcut body all sweep surface 1110 1433 1438 1105 1419 1424 1091 1096  perpendicular outward through_all 
+webcut body all sweep surface 1812 1431 1877 1103 1851 1445 1117 1857  perpendicular outward through_all 
+webcut body all sweep surface 1804 1806 1863 1864 1843 1844 1869 1870 perpendicular outward through_all
+webcut body all sweep surface 1470 1750 1463 1766 1171 715 688 1198 perpendicular outward through_all 
+
+## Small volumes at the water end
+unite volume 274 282
+unite volume 276 270
+unite volume 280 273
+unite volume 272 278 271
+
+## Another box to dissect the 4 outer tubes
+brick x {OutsideBoxSmall} y {OutsideBoxSmall} z 1
+rotate Volume 283 angle 45  about Z include_merged
+move volume 283 x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface 2357  perpendicular outward through_all 
+delete volume 283
+
+## Merge small volumes with larger ones
+unite volume 196 197 150
+unite volume 121 123 101
+unite volume 191 192 153
+unite volume 120 122 108
+
+## Side tube connectors
+webcut body all sweep surface 1368 976 958 1350 941 923 1403 1385 perpendicular outward through_all
+webcut body all sweep surface 1386 977 959 1369 1351 942 924 1404 perpendicular outward through_all
+
+## Merge sides
+#unite volume 168 48
+#unite volume 72  47
+#unite volume 169 46
+#unite volume 71  45
+
+## More merging
+#unite volume 361 54
+
+
+## Cutting individual pieces
+webcut volume 54  sweep surface 926  perpendicular outward through_all
+webcut volume 54  sweep surface 927  perpendicular outward through_all
+webcut volume 54  sweep surface 3262  perpendicular inward through_all
+webcut volume 55  sweep surface 944  perpendicular outward through_all 
+webcut volume 55  sweep surface 945  perpendicular outward through_all 
+webcut volume 55  sweep surface 3278  perpendicular inward through_all 
+webcut volume 56  sweep surface 1353  perpendicular outward through_all 
+webcut volume 56  sweep surface 1354  perpendicular outward through_all 
+webcut volume 56  sweep surface 3294  perpendicular inward through_all 
+webcut volume 57  sweep surface 1371  perpendicular outward through_all 
+webcut volume 57  sweep surface 1372  perpendicular outward through_all 
+webcut volume 57  sweep surface 3310  perpendicular inward through_all 
+webcut volume 58  sweep surface 961  perpendicular outward through_all 
+webcut volume 58  sweep surface 962  perpendicular outward through_all 
+webcut volume 58  sweep surface 3326  perpendicular inward through_all 
+webcut volume 59  sweep surface 727  perpendicular outward through_all 
+webcut volume 59  sweep surface 722  perpendicular outward through_all 
+webcut volume 59  sweep surface 3333  perpendicular inward through_all 
+webcut volume 60  sweep surface 1220  perpendicular outward through_all 
+webcut volume 60  sweep surface 1213  perpendicular outward through_all 
+webcut volume 60  sweep surface 3349  perpendicular inward through_all 
+webcut volume 61  sweep surface 1210  perpendicular outward through_all 
+webcut volume 61  sweep surface 1205  perpendicular outward through_all 
+webcut volume 61  sweep surface 3363  perpendicular inward through_all 
+
+## Separate volumes:
+webcut volume 89  sweep surface 722  perpendicular inward through_all 
+webcut volume 90  sweep surface 732  perpendicular inward through_all 
+webcut volume 91  sweep surface 757  perpendicular inward through_all 
+webcut volume 92  sweep surface 767  perpendicular inward through_all 
+webcut volume 142  sweep surface 1205  perpendicular inward through_all 
+webcut volume 143  sweep surface 1213  perpendicular inward through_all 
+webcut volume 144  sweep surface 1235  perpendicular inward through_all 
+webcut volume 145  sweep surface 1250  perpendicular inward through_all
+
+###############################################################################
+## CONFIRMED: able to mesh up to this point automatically, after this, it doesn't work
+## 16 volume(s) did not mesh. Volume(s) 45 46 47 48 182 212 215 216 296 297 298 299 317 318 319 320 did not mesh.
+##############################################################################
+
+
+
+## Separate volumes using curves:
+## Volume 212:
+#webcut volume 212  sweep curve 3425 3414  along curve 3661  
+#webcut volume 212  sweep curve 1099  along curve 3662  
+#webcut volume 212  sweep curve 1106  along curve 3661  
+#delete Volume 212
+## Volume 215:
+#webcut volume 215  sweep curve 1094 2123  along curve 3689  
+#webcut volume 215  sweep curve 1114  along curve 3689  
+#webcut volume 215  sweep curve 6286  along curve 3689  
+#delete volume 215
+## Volume 216:
+#webcut volume 216  sweep curve 1104 2118  along curve 3700
+#webcut volume 216  sweep curve 1105  along curve 3700
+#webcut volume 216  sweep curve 1109  along curve 3700
+#delete volume 216
+
+## Continue separating:
+## Volume 296:
+#webcut volume 296  sweep surface 845  perpendicular inward through_all 
+#webcut volume 296  sweep surface 842  perpendicular inward through_all 
+## Volume 297:
+#webcut volume 297  sweep surface 852  perpendicular inward through_all 
+#webcut volume 297  sweep surface 852  perpendicular outward through_all 
+## Volume 298:
+#webcut volume 298  sweep surface 888  perpendicular inward through_all 
+#webcut volume 298  sweep surface 888  perpendicular outward through_all 
+## Volume 299:
+#webcut volume 299  sweep surface 895  perpendicular inward through_all 
+#webcut volume 299  sweep surface 895  perpendicular outward through_all 
+## Volume 317:
+#webcut volume 317  sweep surface 1273  perpendicular inward through_all 
+#webcut volume 317  sweep surface 1273  perpendicular outward through_all 
+## Volume 318:
+#webcut volume 318  sweep surface 1280  perpendicular inward through_all 
+#webcut volume 318  sweep surface 1280  perpendicular outward through_all
+## Volume 319:
+#webcut volume 319  sweep surface 1315  perpendicular inward through_all 
+#webcut volume 319  sweep surface 1315  perpendicular outward through_all
+## Volume 320:
+#webcut volume 320  sweep surface 1316  perpendicular inward through_all 
+#webcut volume 320  sweep surface 1316  perpendicular outward through_all
+
+## Continue separating:
+## Volume 45:
+#webcut Volume 45  sweep surface 1227  perpendicular inward through_all 
+#webcut Volume 45  sweep surface 1228  perpendicular inward through_all 
+#webcut Volume 45  sweep surface 1224  perpendicular inward through_all  
+#webcut body 510 511 512  sweep curve 6565  along curve 2453  
+#webcut body 157  sweep curve 6565  along curve 2457  
+## Volume 46:
+#webcut Volume 46  sweep surface 745  perpendicular inward through_all 
+#webcut Volume 46  sweep surface 749  perpendicular inward through_all 
+#webcut Volume 46  sweep surface 741  perpendicular inward through_all
+#webcut body 516 517 81  sweep curve 6606  along curve 1472  
+#webcut body 515  sweep curve 6606  along curve 1478  
+## Volume 47:
+#webcut Volume 47  sweep surface 1263  perpendicular inward through_all 
+#webcut Volume 47  sweep surface 1261  perpendicular inward through_all 
+#webcut Volume 47  sweep surface 1258  perpendicular inward through_all 
+#webcut body 521 158 522  sweep curve 6661  along curve 2525  
+#webcut body 520  sweep curve 6661  along curve 2519  
+## Volume 48:
+#webcut Volume 48  sweep surface 780  perpendicular inward through_all 
+#webcut Volume 48  sweep surface 771  perpendicular inward through_all 
+#webcut Volume 48  sweep surface 775  perpendicular inward through_all 
+#webcut body 82 526 527  sweep curve 6707  along curve 1537  
+#webcut body 525  sweep curve 6707  along curve 1535  
+## Volume 182:
+#webcut volume 182  sweep curve 962  along curve 3134  
+
+
+remove slivers volume all extend arealimit 0.1
+imprint body all 
+merge body all
+
+regularize volume 45 to 48
+regularize volume 212 215 216
+regularize volume 182
+#regularize volume 423 to 438
+
+
+volume all scheme Auto
+
+# Volume 212:
+webcut Volume 212  sweep curve 1111  along curve 3644  
+webcut Volume 212  sweep curve 7393  along curve 3644  
+delete Volume 212
+
+# Volume 215:
+webcut Volume 215  sweep curve 1114  along curve 3552  
+webcut Volume 215  sweep curve 7400  along curve 3552  
+delete Volume 215
+
+# Volume 216:
+webcut Volume 216  sweep curve 1105  along curve 1957  
+webcut Volume 216  sweep curve 7412  along curve 1957  
+delete Volume 216
+
+regularize volume 296 to 299 317 to 320
+
+## Continue separating:
+## Volume 296:
+webcut volume 296  sweep surface 725  perpendicular inward through_all 
+webcut volume 296  sweep surface 725  perpendicular inward through_all 
+## Volume 297:
+webcut volume 297  sweep surface 731  perpendicular inward through_all 
+webcut volume 297  sweep surface 731  perpendicular outward through_all 
+## Volume 298:
+webcut volume 298  sweep surface 758  perpendicular inward through_all 
+webcut volume 298  sweep surface 758  perpendicular outward through_all 
+## Volume 299:
+webcut volume 299  sweep surface 761  perpendicular inward through_all 
+webcut volume 299  sweep surface 761  perpendicular outward through_all 
+## Volume 317:
+webcut volume 317  sweep surface 1240  perpendicular inward through_all 
+webcut volume 317  sweep surface 1240  perpendicular outward through_all 
+## Volume 318:
+webcut volume 318  sweep surface 1244  perpendicular inward through_all 
+webcut volume 318  sweep surface 1244  perpendicular outward through_all
+## Volume 319:
+webcut volume 319  sweep surface 1208  perpendicular inward through_all 
+webcut volume 319  sweep surface 1208  perpendicular outward through_all
+## Volume 320:
+webcut volume 320  sweep surface 1215  perpendicular inward through_all 
+webcut volume 320  sweep surface 1215  perpendicular outward through_all
+
+mesh volume all
+## Attempt meshing volume 120 again:
+mesh volume 120 
+
+#volume all scheme SubMap
+#volume all size 0.7
+#Surface 5 6 53 253 154 scheme circle
+#volume all size auto factor 1
