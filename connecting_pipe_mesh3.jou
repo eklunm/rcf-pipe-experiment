@@ -1,0 +1,90 @@
+reset
+#{OuterRadius = 3.65125}
+#{InnerRadius = 3.13563}
+#{Outerradius = 0.85725}
+#{Innerradius = 0.62611}
+##  CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2
+## {CenterP=3.18799}
+#{CenterP=(OuterRadius+Outerradius)*sqrt(2.)/2}
+#{Leng = 5}
+#{supportSteel=0.75}
+#{support=0.51886}
+#{OutsideWaterX=15}
+#{OutsideWaterY=OutsideWaterX}
+
+reset
+## Create cylinders:
+create cylinder height {Leng} radius {OuterRadius}
+create cylinder height {Leng} radius {InnerRadius}
+create cylinder height {Leng} radius {Outerradius}
+create cylinder height {Leng} radius {Innerradius}
+
+## Separate cylinders:
+subtract body 2 from body 1 keep
+delete volume 1
+subtract body 4 from body 3 keep
+delete volume 3
+
+## Move smaller cylinders:
+move volume 4 6 x {CenterP} y {CenterP} include_merged
+
+## Connecting pipe:
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+rotate volume 7 8 angle 90 about x include_merged
+rotate volume 7 8 angle 135 about z include_merged
+move volume 7 8 x 2 y 2 include_merged
+
+## Subtract main tube before cutting connecting tube:
+subtract body 7  from body 5  keep 
+delete Volume 5
+
+## Subtract connecting pipe from smaller pipe:
+subtract body 4 6  from body 7  keep 
+delete Volume 7
+subtract body 8  from body 6  keep 
+delete Volume 6
+subtract body 4  from body 8  keep 
+delete Volume 8
+
+## Subtract connecting pipe from larger pipe:
+subtract body 2 9  from body 10  keep 
+delete Volume 10
+subtract body 2  from body 12  keep 
+delete Volume 12
+
+## Finally, separate inside of connecting pipe from outside:
+subtract body 14  from body 13  keep 
+delete Volume 13
+
+## Brick for outside water:
+brick x {OutsideWaterX} y {OutsideWaterY} z {Leng}
+
+## Subtract everything from the outside water
+unite vol 2 4 9 11 14 15 keep
+sub vol 17 from 16
+
+## There is symmetry about the zplane.  Mesh only half the model, then reflect it later
+section volume all zplane
+
+## A bit more decomposition to get volume 15 to mesh
+webcut vol 15 plane surface 133 
+webcut vol 15 plane surface 135 
+
+ webcut volume 16 with plane yplane offset 0 rotate 45 about z noimprint nomerge
+
+imprint all
+merge all
+
+volume all size 0.15
+volume all scheme auto
+volume 9  scheme Sweep  source surface 115 169 168 170    target surface 40  
+volume 11  scheme Sweep  source surface 120 47    target surface 54 
+volume 16  scheme Sweep  source surface 138 184 183 181 186  target surface 109
+
+mesh volume all
+
+## get the other half of the model back
+volume all copy reflect plane zplane
+merge all
+
