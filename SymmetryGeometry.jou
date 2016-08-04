@@ -114,3 +114,4 @@ volume all copy reflect plane xplane
 volume all copy reflect plane yplane
 
 merge all
+save as "pipe.cub" overwrite
