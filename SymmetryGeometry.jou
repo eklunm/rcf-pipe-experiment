@@ -1,0 +1,49 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+##{CenterP=3.18799}
+#{CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2}
+
+#{MoveZ=68.61557}
+
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+
+#{WebcutBox=0.8}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+
+#{OutsideWaterZ=150}
+
+#{OutsideBox=11.44166654}
+#{OutsideBoxSmall=9}
+create cylinder height {Leng} radius {OuterRadius}
+create cylinder height {Leng} radius {InnerRadius}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeInnRad}
+# subtract body  ( at 0 0 0 ordinal 2 ordered )  from body  ( at 0 0 0 ordinal 1 ordered )  keep
+subtract volume 2 from volume 1  keep
+delete vol 1
+subtract volume 4 from volume 3  keep
+delete vol 3
+ move Volume 4 6  x {CenterP} y {CenterP} include_merged 
+create cylinder height {height1} radius {OuterRadius}
+create cylinder height {height2} radius {PipeOutRad}
+
+move volume  7  z {Leng/2 + height1/2} include_merged
+move volume  8  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+
+rotate volume 9 10 angle 90 about x include_merged
+rotate volume 9 10 angle 135 about z include_merged
+move volume 9 10  x -2 y -2 z { Leng/2 - 2 }include_merged
+
+
