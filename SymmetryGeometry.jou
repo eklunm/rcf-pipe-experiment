@@ -33,17 +33,76 @@ delete vol 1
 subtract volume 4 from volume 3  keep
 delete vol 3
  move Volume 4 6  x {CenterP} y {CenterP} include_merged 
-create cylinder height {height1} radius {OuterRadius}
-create cylinder height {height2} radius {PipeOutRad}
 
-move volume  7  z {Leng/2 + height1/2} include_merged
-move volume  8  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
 
 brick x {supportSteel*2} y {supportSteel*2} z 3
 brick x {support*2} y {support*2} z 3
 
-rotate volume 9 10 angle 90 about x include_merged
-rotate volume 9 10 angle 135 about z include_merged
-move volume 9 10  x -2 y -2 z { Leng/2 - 2 }include_merged
+rotate volume 7 8 angle 90 about x include_merged
+rotate volume 7 8 angle 135 about z include_merged
+move volume 7 8  x 2 y 2 z { Leng/2 - 2 }include_merged
 
+## Subtract main tube before cutting connecting tube:
+subtract body 7  from body 5  keep 
+delete Volume 5
+
+## Subtract connecting pipe from smaller pipe:
+subtract body 4 6  from body 7  keep 
+delete Volume 7
+subtract body 8  from body 6  keep 
+delete Volume 6
+subtract body 4  from body 8  keep 
+delete Volume 8
+
+## Subtract connecting pipe from larger pipe:
+subtract body 2 9  from body 10  keep 
+delete Volume 10
+subtract body 2  from body 12  keep 
+delete Volume 12
+
+## Finally, separate inside of connecting pipe from outside:
+subtract body 14  from body 13  keep 
+delete Volume 13
+
+create cylinder height {height1} radius {OuterRadius}
+create cylinder height {height2} radius {PipeOutRad}
+
+move volume  16  z {Leng/2 + height1/2} include_merged
+move volume  17  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+move volume  ( at 0 0 0 ordinal 3 ordered )  z {(OutsideWaterZ-Leng)/2} include_merged
+
+## Subtract everything from the outside water
+unite vol 2 4 9 11 14 15 16 17 keep
+sub vol 19 from 18
+
+section volume all xplane
+section volume all yplane
+
+webcut volume 15 with plane surface 76
+webcut volume 15 with plane surface 74
+
+webcut volume all with plane surface 174
+webcut volume all with plane surface 177
+webcut volume all with plane surface 154
+webcut volume all with plane surface 152
+webcut volume all with plane surface 68
+webcut volume all with plane surface 67
+
+rotate volume all angle 45 about z include_merged
+section volume all xplane
+delete volume 30 39 42 15
+
+webcut volume 14 with sheet extended from surface 420
+
+# webcut volume all with plane yplane offset 0 rotate 45 about z noimprint nomerge
+
+imprint all
+merge all
+
+volume all size 0.15
+volume all scheme auto
+
+mesh vol all
 
