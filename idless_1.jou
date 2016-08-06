@@ -1,0 +1,80 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+##{CenterP=3.18799}
+#{CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2}
+#{MoveZ=68.61557}
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+#{WebcutBox=0.8}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+#{OutsideWaterZ=150}
+#{OutsideBox=11.44166654}
+#{OutsideBoxSmall=9}
+create cylinder height {Leng} radius {OuterRadius}
+create cylinder height {Leng} radius {InnerRadius}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeInnRad}
+# subtract body  ( at 0 0 0 ordinal 2 ordered )  from body  ( at 0 0 0 ordinal 1 ordered )  keep
+subtract volume  ( at 0 0 0 ordinal 2 ordered )  from volume  ( at 0 0 0 ordinal 1 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 1 ordered ) 
+subtract volume  ( at 0 0 0 ordinal 3 ordered )  from volume  ( at 0 0 0 ordinal 2 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 2 ordered ) 
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 4 ordered )  x {CenterP} y {CenterP} include_merged
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+rotate volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 ordered )  angle 90 about x include_merged
+rotate volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 ordered )  angle 135 about z include_merged
+move volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 ordered )  x 2 y 2 z { Leng/2 - 2 } include_merged
+## Subtract main tube before cutting connecting tube:
+subtract body  ( at 2 2 66.5 ordinal 1 ordered )  from body  ( at 0 0 0 ordinal 2 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 2 ordered ) 
+## Subtract connecting pipe from smaller pipe:
+subtract body  ( at 3.18799 3.18799 0 ordinal 1 at 3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at 2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 2 2 66.5 ordinal 1 ordered )  from body  ( at 3.18799 3.18799 0 ordinal 2 ordered )  keep
+delete volume  ( at 3.18799 3.18799 0 ordinal 2 ordered ) 
+subtract body  ( at 3.18799 3.18799 0 ordinal 1 ordered )  from body  ( at 2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 2 66.5 ordinal 1 ordered ) 
+## Subtract connecting pipe from larger pipe:
+subtract body  ( at 0 0 0 ordinal 1 at 0 0 0 ordinal 2 ordered )  from body  ( at 1.91688 1.91688 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 1.91688 1.91688 66.5 ordinal 1 ordered ) 
+subtract body  ( at 0 0 0 ordinal 1 ordered )  from body  ( at 1.93977 1.93977 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 1.93977 1.93977 66.5 ordinal 1 ordered ) 
+## Finally, separate inside of connecting pipe from outside:
+subtract body  ( at 2.56343 2.56343 66.5 ordinal 1 ordered )  from body  ( at 2.52364 2.52364 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2.52364 2.52364 66.5 ordinal 1 ordered ) 
+create cylinder height {height1} radius {OuterRadius}
+create cylinder height {height2} radius {PipeOutRad}
+move volume  ( at 0 0 0 ordinal 3 ordered )  z {Leng/2 + height1/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+move volume ( at 0 0 0 ordinal 3 ordered ) z {(OutsideWaterZ-Leng)/2} include_merged
+## Subtract everything from the outside water
+unite volume  ( at 0 0 0 ordinal 1 at 3.18799 3.18799 0 ordinal 1 at 0 0 0 ordinal 2 at 3.18799 3.18799 0 ordinal 2 at 2.56343 2.56343 66.5 ordinal 1 at 2.52364 2.52364 66.5 ordinal 1 at 0 0 68.7578 ordinal 1 at 3.18799 3.18799 68.7578 ordinal 1 ordered )  keep
+subtract volume  ( at 0.196995 0.196995 0.25781 ordinal 1 ordered )  from  ( at 0 0 6.5 ordinal 1 ordered ) 
+section volume all xplane
+section volume all yplane
+webcut volume  ( at 2.52364 2.52364 66.5 ordinal 1 ordered )  with plane surface  ( at 2.81295 2.07917 66.5 ordinal 1 ordered ) 
+webcut volume  ( at 2.34745 2.62226 66.5 ordinal 1 ordered )  with plane surface  ( at 2.07917 2.81295 66.5 ordinal 1 ordered ) 
+webcut volume all with plane surface  ( at 2.44606 2.44606 65.75 ordinal 1 ordered ) 
+webcut volume all with plane surface  ( at 2.44606 2.44606 67.25 ordinal 1 ordered ) 
+webcut volume all with plane surface  ( at 1.82563 1.82563 69.0156 ordinal 1 ordered ) 
+webcut volume all with plane surface  ( at 1.82563 1.82563 68.5 ordinal 2 ordered ) 
+webcut volume all with plane surface  ( at 2.56343 2.56343 65.9811 ordinal 1 ordered ) 
+rotate volume all angle 45 about z include_merged
+section volume all xplane
+delete volume  ( at -1.66591 2.89531 66.6156 ordinal 1 at -0.63443 3.56897 65.8656 ordinal 1 at -1.66591 2.89531 65.8656 ordinal 1 at -0.63443 3.56897 66.6156 ordinal 1 ordered ) 
+webcut volume  ( at 0.25943 3.62524 66.5 ordinal 1 ordered )  with sheet extended from surface  ( at 0.273766 3.69614 67.1344 ordinal 1 ordered ) 
+# webcut volume all with plane yplane offset 0 rotate 45 about z noimprint nomerge
+imprint all
+merge all
+volume all size 0.15
+volume all scheme auto
