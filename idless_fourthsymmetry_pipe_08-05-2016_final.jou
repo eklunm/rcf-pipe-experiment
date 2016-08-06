@@ -1,0 +1,169 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+## if we keep CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2, we have some issues with bodies for slivers not split
+#{CenterP=3.18799}
+#{MoveZ=68.61557}
+##{height1=0.70104}
+##{height2=0.23114}
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+##{WebcutBox=1.8}
+##{WebcutBox=0.6}
+#{WebcutBox=0.8}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+##{OutsideWaterZ=Leng}
+#{OutsideWaterZ=150}
+##{OutsideBox=8.09048}
+##{OutsideBox=8.5}
+#{OutsideBox=11.44166654}
+#{OutsideBoxSmall=9}
+create cylinder height {Leng} radius {OuterRadius}
+create cylinder height {Leng} radius {InnerRadius}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+subtract body  ( at 0 0 0 ordinal 2 ordered )  from body  ( at 0 0 0 ordinal 1 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 1 ordered ) 
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 6 ordered )  x {CenterP} y {CenterP} include_merged
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 5 ordered )  x {-CenterP} y {CenterP} include_merged
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 4 ordered )  x {-CenterP} y {-CenterP} include_merged
+move volume  ( at 0 0 0 ordinal 2 at 0 0 0 ordinal 3 ordered )  x {CenterP} y {-CenterP} include_merged
+subtract body  ( at -3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at -3.18799 3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at -3.18799 3.18799 0 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at -3.18799 -3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at -3.18799 -3.18799 0 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at 3.18799 -3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at 3.18799 -3.18799 0 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at 3.18799 3.18799 0 ordinal 1 ordered )  keep
+delete volume  ( at 3.18799 3.18799 0 ordinal 1 ordered ) 
+create cylinder height {height1} radius {OuterRadius}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+move volume  ( at 0 0 0 ordinal 3 ordered )  z {Leng/2 + height1/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {-CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {-CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+move volume  ( at 0 0 0 ordinal 3 ordered )  x {CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+rotate volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 at 0 0 0 ordinal 5 at 0 0 0 ordinal 6 at 0 0 0 ordinal 7 at 0 0 0 ordinal 8 at 0 0 0 ordinal 9 at 0 0 0 ordinal 10 ordered )  angle 90 about x include_merged
+move volume  ( at 0 0 0 ordinal 3 at 0 0 0 ordinal 4 at 0 0 0 ordinal 5 at 0 0 0 ordinal 6 at 0 0 0 ordinal 7 at 0 0 0 ordinal 8 at 0 0 0 ordinal 9 at 0 0 0 ordinal 10 ordered )  z {Leng/2 - 2} include_merged
+rotate volume  ( at 0 0 66.5 ordinal 1 ordered )  angle 45 about z include_merged
+rotate volume  ( at 0 0 66.5 ordinal 4 at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 8 at 0 0 66.5 ordinal 7 ordered )  angle 135 about z include_merged
+rotate volume  ( at 0 0 66.5 ordinal 2 at 0 0 66.5 ordinal 5 at 0 0 66.5 ordinal 6 ordered )  angle 45 about z include_merged
+move volume  ( at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 7 ordered )  x -2 y -2 include_merged
+move volume  ( at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 6 ordered )  x 2 y 2 include_merged
+move volume  ( at 0 0 66.5 ordinal 3 at 0 0 66.5 ordinal 1 ordered )  x 2 y -2 include_merged
+move volume  ( at 0 0 66.5 ordinal 1 at 0 0 66.5 ordinal 2 ordered )  x -2 y 2 include_merged
+# Remove outer portion of central pipe for connecting pipes:
+subtract volume  ( at 2 -2 66.5 ordinal 1 at -2 2 66.5 ordinal 1 at -2 -2 66.5 ordinal 1 at 2 2 66.5 ordinal 1 ordered )  from  ( at 0 0 0 ordinal 2 ordered )  keep
+delete volume  ( at 0 0 0 ordinal 2 ordered ) 
+# Separate connecting pipes from small outer pipes:
+subtract body  ( at 3.18799 3.18799 0 ordinal 1 at 3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at 2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 3.18799 0 ordinal 1 ordered )  from body  ( at 2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 2 ordered )  from body  ( at -2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 3.18799 0 ordinal 1 ordered )  from body  ( at -2 2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 -3.18799 0 ordinal 1 at -3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at -2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at -3.18799 -3.18799 0 ordinal 1 ordered )  from body  ( at -2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at -2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 -3.18799 0 ordinal 1 at 3.18799 -3.18799 0 ordinal 2 ordered )  from body  ( at 2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 -2 66.5 ordinal 1 ordered ) 
+subtract body  ( at 3.18799 -3.18799 0 ordinal 1 ordered )  from body  ( at 2 -2 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 2 -2 66.5 ordinal 1 ordered ) 
+# Remove fluid in connecting pipes from center pipe fluid:
+subtract volume  ( at 0 0 0 ordinal 1 ordered )  from  ( at 1.91688 1.91688 66.5 ordinal 1 at 1.93977 1.93977 66.5 ordinal 1 at -1.91688 1.91688 66.5 ordinal 1 at -1.93977 1.93977 66.5 ordinal 1 at -1.91688 -1.91688 66.5 ordinal 1 at -1.93977 -1.93977 66.5 ordinal 1 at 1.91688 -1.91688 66.5 ordinal 1 at 1.93977 -1.93977 66.5 ordinal 1 ordered )  keep
+delete volume  ( at 1.91688 1.91688 66.5 ordinal 1 at 1.93977 1.93977 66.5 ordinal 1 at -1.91688 1.91688 66.5 ordinal 1 at -1.93977 1.93977 66.5 ordinal 1 at -1.91688 -1.91688 66.5 ordinal 1 at -1.93977 -1.93977 66.5 ordinal 1 at 1.91688 -1.91688 66.5 ordinal 1 at 1.93977 -1.93977 66.5 ordinal 1 ordered ) 
+# Create outer fluid and move it:
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+#{if(Leng!=OutsideWaterZ)}
+move volume  ( at 0 0 0 ordinal 3 ordered )  z {(OutsideWaterZ-Leng)/2} include_merged
+#{endif}
+# Unite all other bodies from outer fluid and remove it:
+unite volume  ( at 0 0 0 ordinal 1 at 3.18799 3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 1 at -3.18799 -3.18799 0 ordinal 1 at 3.18799 -3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 2 at -3.18799 -3.18799 0 ordinal 2 at 3.18799 -3.18799 0 ordinal 2 at 3.18799 3.18799 0 ordinal 2 at 0 0 68.7578 ordinal 1 at 3.18799 3.18799 68.7578 ordinal 1 at -3.18799 3.18799 68.7578 ordinal 1 at -3.18799 -3.18799 68.7578 ordinal 1 at 3.18799 -3.18799 68.7578 ordinal 1 at 0 0 0 ordinal 2 at 2.52364 2.52364 66.5 ordinal 1 at 2.56343 2.56343 66.5 ordinal 1 at -2.52364 2.52364 66.5 ordinal 1 at -2.56343 2.56343 66.5 ordinal 1 at -2.52364 -2.52364 66.5 ordinal 1 at -2.56343 -2.56343 66.5 ordinal 1 at 2.52364 -2.52364 66.5 ordinal 1 at 2.56343 -2.56343 66.5 ordinal 1 ordered )  keep
+subtract volume  ( at 0 0 0.25781 ordinal 1 ordered )  from  ( at 0 0 6.5 ordinal 1 ordered ) 
+# Remove connecting pipe inner fluid from connecting pipe:
+subtract body  ( at 2.56343 -2.56343 66.5 ordinal 1 ordered )  from body  ( at 2.52364 -2.52364 66.5 ordinal 1 ordered )  keep
+delete body  ( at 2.52364 -2.52364 66.5 ordinal 1 ordered ) 
+subtract body  ( at -2.56343 -2.56343 66.5 ordinal 1 ordered )  from body  ( at -2.52364 -2.52364 66.5 ordinal 1 ordered )  keep
+delete body  ( at -2.52364 -2.52364 66.5 ordinal 1 ordered ) 
+subtract body  ( at -2.56343 2.56343 66.5 ordinal 1 ordered )  from body  ( at -2.52364 2.52364 66.5 ordinal 1 ordered )  keep
+delete body  ( at -2.52364 2.52364 66.5 ordinal 1 ordered ) 
+subtract body  ( at 2.56343 2.56343 66.5 ordinal 1 ordered )  from body  ( at 2.52364 2.52364 66.5 ordinal 1 ordered )  keep
+delete body  ( at 2.52364 2.52364 66.5 ordinal 1 ordered ) 
+## START WEBCUTTING TO ALLOW FOR MESHING:
+webcut body  ( at 0 0 0 ordinal 1 at 3.18799 3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 1 at -3.18799 -3.18799 0 ordinal 1 at 3.18799 -3.18799 0 ordinal 1 at -3.18799 3.18799 0 ordinal 2 at -3.18799 -3.18799 0 ordinal 2 at 3.18799 -3.18799 0 ordinal 2 at 3.18799 3.18799 0 ordinal 2 at 0 0 0 ordinal 2 at 0 0 6.5 ordinal 1 ordered )  with sheet extended from surface  ( at 2.33982 2.33982 65.75 ordinal 1 ordered ) 
+webcut body  ( at 0 0 67.125 ordinal 1 at 3.18799 3.18799 67.125 ordinal 1 at -3.18799 3.18799 67.125 ordinal 1 at -3.18799 -3.18799 67.125 ordinal 1 at 3.18799 -3.18799 67.125 ordinal 1 at -3.18799 3.18799 67.125 ordinal 2 at -3.18799 -3.18799 67.125 ordinal 2 at 3.18799 -3.18799 67.125 ordinal 2 at 3.18799 3.18799 67.125 ordinal 2 at 0 0 67.125 ordinal 2 at 0 0 73.625 ordinal 1 ordered )  with sheet extended from surface  ( at 2.33982 2.33982 67.25 ordinal 1 ordered ) 
+webcut body  ( at 0 0 74.375 ordinal 1 ordered )  with sheet extended from surface  ( at 0 0 68.5 ordinal 3 ordered ) 
+webcut body  ( at 0 0 75 ordinal 1 ordered )  with sheet extended from surface  ( at 0 0 69.0156 ordinal 1 ordered ) 
+## Volumes 2 7 8 9 10 12 to 15 17 to 20 39 41 43 45 48 49 50 51 56 57 58 59 61 68 69 75 76 cannot mesh
+# Separate based on the inner fluid surfaces:
+webcut body  ( at 3.18799 3.18799 66.5 ordinal 1 at -3.18799 3.18799 66.5 ordinal 1 at -3.18799 -3.18799 66.5 ordinal 1 at 3.18799 -3.18799 66.5 ordinal 1 at -3.18799 3.18799 66.5 ordinal 2 at -3.18799 -3.18799 66.5 ordinal 2 at 3.18799 -3.18799 66.5 ordinal 2 at 3.18799 3.18799 66.5 ordinal 2 at -3.16722 0 66.5 ordinal 1 at -2.52364 -2.52364 66.5 ordinal 1 at 0 -3.16722 66.5 ordinal 1 at 2.52364 -2.52364 66.5 ordinal 1 at 3.16722 0 66.5 ordinal 1 at 2.52364 2.52364 66.5 ordinal 1 at 0 3.16722 66.5 ordinal 1 at -2.52364 2.52364 66.5 ordinal 1 at 0 0 66.5 ordinal 2 ordered )  with sheet extended from surface  ( at 2.56343 2.56343 65.9811 ordinal 1 ordered ) 
+webcut body  ( at 3.18799 3.18799 66.6156 ordinal 1 at -3.18799 3.18799 66.6156 ordinal 1 at -3.18799 -3.18799 66.6156 ordinal 1 at 3.18799 -3.18799 66.6156 ordinal 1 at -3.18799 3.18799 66.6156 ordinal 2 at -3.18799 -3.18799 66.6156 ordinal 2 at 3.18799 -3.18799 66.6156 ordinal 2 at 3.18799 3.18799 66.6156 ordinal 2 at -3.16722 0 66.6156 ordinal 1 at -2.52364 -2.52364 66.6156 ordinal 1 at 0 -3.16722 66.6156 ordinal 1 at 2.52364 -2.52364 66.6156 ordinal 1 at 3.16722 0 66.6156 ordinal 1 at 2.52364 2.52364 66.6156 ordinal 1 at 0 3.16722 66.6156 ordinal 1 at -2.52364 2.52364 66.6156 ordinal 1 at 0 0 66.6156 ordinal 1 ordered )  with sheet extended from surface  ( at -2.56343 -2.56343 67.0189 ordinal 1 ordered ) 
+## Volumes 12 to 15 39 41 43 45 48 49 50 51 88 90 92 94 cannot mesh
+webcut body  ( at -2.52364 -2.52364 65.8656 ordinal 1 at -2.52364 -2.52364 67.1344 ordinal 1 at -3.18799 -3.18799 66.5 ordinal 2 ordered )  with sheet extended from surface  ( at -2.81295 -2.07917 66.5 ordinal 1 ordered ) 
+webcut body  ( at -2.34745 -2.62226 65.8656 ordinal 1 at -2.34745 -2.62226 67.1344 ordinal 1 at -3.18407 -3.19191 66.5 ordinal 1 ordered )  with sheet extended from surface  ( at -2.07917 -2.81295 66.5 ordinal 1 ordered ) 
+webcut body  ( at 2.52364 -2.52364 65.8656 ordinal 1 at 2.52364 -2.52364 67.1344 ordinal 1 at 3.18799 -3.18799 66.5 ordinal 2 ordered )  with sheet extended from surface  ( at 2.81295 -2.07917 66.5 ordinal 1 ordered ) 
+webcut body  ( at 2.34745 -2.62226 65.8656 ordinal 1 at 2.34745 -2.62226 67.1344 ordinal 1 at 3.18407 -3.19191 66.5 ordinal 1 ordered )  with sheet extended from surface  ( at 2.07917 -2.81295 66.5 ordinal 1 ordered ) 
+webcut body  ( at 2.52364 2.52364 65.8656 ordinal 1 at 2.52364 2.52364 67.1344 ordinal 1 at 3.18799 3.18799 66.5 ordinal 2 ordered )  with sheet extended from surface  ( at 2.81295 2.07917 66.5 ordinal 1 ordered ) 
+webcut body  ( at 2.34745 2.62226 65.8656 ordinal 1 at 2.34745 2.62226 67.1344 ordinal 1 at 3.18407 3.19191 66.5 ordinal 1 ordered )  with sheet extended from surface  ( at 2.07917 2.81295 66.5 ordinal 1 ordered ) 
+webcut body  ( at -2.52364 2.52364 65.8656 ordinal 1 at -2.52364 2.52364 67.1344 ordinal 1 at -3.18799 3.18799 66.5 ordinal 2 ordered )  with sheet extended from surface  ( at -2.81295 2.07917 66.5 ordinal 1 ordered ) 
+webcut body  ( at -2.34745 2.62226 65.8656 ordinal 1 at -2.34745 2.62226 67.1344 ordinal 1 at -3.18407 3.19191 66.5 ordinal 1 ordered )  with sheet extended from surface  ( at -2.07917 2.81295 66.5 ordinal 1 ordered ) 
+## Volumes 39 41 43 45 cannot mesh
+webcut volume  ( at 2.56343 2.56343 66.5 ordinal 1 ordered )  sweep surface  ( at 3.18799 3.18799 69.0156 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -2.56343 2.56343 66.5 ordinal 1 ordered )  sweep surface  ( at -3.18799 3.18799 69.0156 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at -2.56343 -2.56343 66.5 ordinal 1 ordered )  sweep surface  ( at -3.18799 -3.18799 69.0156 ordinal 1 ordered )  perpendicular inward through_all
+webcut volume  ( at 2.56343 -2.56343 66.5 ordinal 1 ordered )  sweep surface  ( at 3.18799 -3.18799 69.0156 ordinal 1 ordered )  perpendicular inward through_all
+## Volume(s) 90 128 135 49 50 51 76 did not mesh (using volume size 0.2 all)
+webcut volume  ( at 2.44606 -2.44606 67.1344 ordinal 1 at -2.44606 -2.44606 67.1344 ordinal 1 at -2.44606 2.44606 67.1344 ordinal 1 at 2.44606 2.44606 67.1344 ordinal 1 at -2.44606 -2.44606 65.8656 ordinal 1 at 2.44606 -2.44606 65.8656 ordinal 1 at 2.44606 2.44606 65.8656 ordinal 1 at -2.44606 2.44606 65.8656 ordinal 1 at 1.99331 -2.98914 67.1344 ordinal 1 at 1.99331 2.98914 67.1344 ordinal 1 ordered )  sweep surface  ( at 0 0 69.0156 ordinal 1 ordered )  perpendicular inward through_all
+#webcut vol 49 50 51 90 128 135 sweep surface 53 perpendicular inward through_all
+webcut volume  ( at 0 0 75.2578 ordinal 1 at 0 0 67.875 ordinal 3 at 0 0 68.7578 ordinal 2 ordered )  sweep surface  ( at 0 0 67.25 ordinal 5 ordered )  perpendicular outward through_all
+## Volume(s) 94 88 109 39 76 did not mesh. (using volume size 0.2 all)
+## Try cutting into fourths due to symmetry:
+create planar surface with plane yplane offset 0
+create planar surface with plane xplane offset 0
+section volume all with surface  ( at 0 0 6.5 ordinal 1 ordered ) 
+section volume all with surface  ( at 0 -6 6.5 ordinal 1 ordered ) 
+## Delete remaining volumes:
+delete volume  ( at 3.18799 3.18799 -1.375 ordinal 2 at -3.18799 3.18799 -1.375 ordinal 2 at -3.18799 3.18799 67.875 ordinal 2 at -0.99822 3.16722 67.1344 ordinal 1 at -0.99822 3.16722 65.8656 ordinal 1 at 1.99331 2.98914 65.8656 ordinal 1 at 2.28866 3.00376 68.7578 ordinal 1 at 1.90564 2.80532 67.1344 ordinal 1 at 2.37114 2.37114 67.1344 ordinal 1 at 2.98914 1.99331 67.1344 ordinal 1 at 3.00376 2.28866 68.7578 ordinal 1 at 3.18799 3.18799 68.7578 ordinal 1 at 3.55315 3.55315 66.5 ordinal 1 at 2.81718 3.5588 66.5 ordinal 1 at 2.18026 3.17363 67.1344 ordinal 1 at -3.55315 3.55315 66.5 ordinal 1 at -2.81718 3.5588 66.5 ordinal 1 at -3.5588 2.81718 66.5 ordinal 1 at -2.37114 2.37114 67.1344 ordinal 1 at -1.99331 2.98914 67.1344 ordinal 1 at -2.28866 3.00376 68.7578 ordinal 1 at -1.99331 2.98914 65.8656 ordinal 1 at -3.00376 2.28866 68.7578 ordinal 1 at -3.18799 3.18799 68.7578 ordinal 1 at -2.98914 1.99331 67.1344 ordinal 1 at 3.00376 -2.28866 67.875 ordinal 1 at 2.28866 -3.00376 67.875 ordinal 1 at 3.00376 -2.28866 68.7578 ordinal 1 at 3.18799 -3.18799 68.7578 ordinal 1 at 3.16722 -0.99822 67.1344 ordinal 1 at 2.37114 -2.37114 67.1344 ordinal 1 at 2.98914 -1.99331 67.1344 ordinal 1 at 1.90564 -2.80532 67.1344 ordinal 1 at 2.28866 -3.00376 68.7578 ordinal 1 at 3.18799 -3.18799 -1.375 ordinal 2 at 3.18799 3.18799 67.875 ordinal 2 at 3.18799 3.18799 -1.375 ordinal 1 at 3.18799 3.18799 65.8656 ordinal 2 at 3.18799 3.18799 67.1344 ordinal 1 at 3.18799 3.18799 67.1344 ordinal 2 at -0.99822 3.16722 66.5 ordinal 1 at -3.18799 3.18799 67.875 ordinal 1 at -3.18799 3.18799 -1.375 ordinal 1 at 3.18799 -3.18799 -1.375 ordinal 1 at 3.16722 -0.99822 66.5 ordinal 1 at 2.98914 -1.99331 66.5 ordinal 1 at 2.82756 -2.3848 67.1344 ordinal 1 at 2.44606 -2.44606 66.5 ordinal 1 at 1.99331 -2.98914 66.5 ordinal 1 at 3.18799 -3.18799 67.875 ordinal 1 at 3.18799 -3.18799 67.875 ordinal 2 at -2.28866 3.00376 67.875 ordinal 1 at -2.44606 2.44606 66.5 ordinal 1 at -3.00376 2.28866 67.875 ordinal 1 at -3.18799 3.18799 67.1344 ordinal 2 at -3.18799 3.18799 65.8656 ordinal 2 at 3.00376 2.28866 67.875 ordinal 1 at 2.98914 1.99331 66.5 ordinal 1 at 1.99331 2.98914 66.5 ordinal 1 at 2.44606 2.44606 66.5 ordinal 1 at 2.28866 3.00376 67.875 ordinal 1 at 3.18799 3.18799 67.875 ordinal 1 at 3.16722 -0.99822 65.8656 ordinal 1 at 2.37114 -2.37114 65.8656 ordinal 1 at 2.98914 -1.99331 65.8656 ordinal 1 at 2.18026 -3.17363 67.1344 ordinal 1 at 1.99331 -2.98914 65.8656 ordinal 1 at 2.3848 -2.82756 67.1344 ordinal 1 at 2.82283 -2.82283 66.5 ordinal 2 at 3.18799 -3.18799 67.1344 ordinal 2 at 3.18799 -3.18799 67.1344 ordinal 1 at 3.5588 2.81718 66.5 ordinal 1 at 3.18799 3.18799 66.5 ordinal 1 at 2.3848 2.82756 67.1344 ordinal 1 at 2.82283 2.82283 66.5 ordinal 2 at 2.37114 2.37114 65.8656 ordinal 1 at 2.82756 2.3848 67.1344 ordinal 1 at 2.98914 1.99331 65.8656 ordinal 1 at -3.18799 3.18799 67.1344 ordinal 1 at -1.99331 2.98914 66.5 ordinal 1 at -2.3848 2.82756 67.1344 ordinal 1 at -2.37114 2.37114 65.8656 ordinal 1 at -2.82756 2.3848 67.1344 ordinal 1 at -2.98914 1.99331 66.5 ordinal 1 at -3.18799 3.18799 66.5 ordinal 1 at -2.82283 2.82283 66.5 ordinal 2 at -2.98914 1.99331 65.8656 ordinal 1 at 2.82283 2.82283 66.5 ordinal 1 at 2.3848 2.82756 65.8656 ordinal 1 at 2.82756 2.3848 65.8656 ordinal 1 at 3.18799 3.18799 65.8656 ordinal 1 at 3.5588 -2.81718 66.5 ordinal 1 at 2.82283 -2.82283 66.5 ordinal 1 at 2.82756 -2.3848 65.8656 ordinal 1 at 3.55315 -3.55315 66.5 ordinal 1 at 3.18799 -3.18799 66.5 ordinal 1 at 2.81718 -3.5588 66.5 ordinal 1 at -3.18799 3.18799 65.8656 ordinal 1 at -2.82283 2.82283 66.5 ordinal 1 at 3.18799 -3.18799 65.8656 ordinal 1 at 3.18799 -3.18799 65.8656 ordinal 2 at 2.3848 -2.82756 65.8656 ordinal 1 at -2.3848 2.82756 65.8656 ordinal 1 at -2.82756 2.3848 65.8656 ordinal 1 ordered ) 
+## Volume(s) 43 did not mesh.
+webcut volume  ( at -2.44606 -2.44606 66.5 ordinal 1 ordered )  sweep surface  ( at -1.82562 -1.82562 -68.5 ordinal 1 ordered )  perpendicular inward through_all
+## Delete extra volume:
+delete volume  ( at -2.82283 -2.82283 66.5 ordinal 2 ordered ) 
+imprint all
+merge all
+volume all size 0.15
+volume all scheme auto
+mesh volume all
+## Copy and reflect (causes Trelis to crash; commented out):
+#volume all copy reflect plane yplane
+#volume all copy reflect plane xplane
+## Add to groups:
+group "int_fluid" add volume  ( at -1.56781 -1.56781 66.5 ordinal 1 at -3.18799 -3.18799 66.5 ordinal 1 at -2.37114 -2.37114 66.5 ordinal 1 at -1.56781 -1.56781 -1.375 ordinal 1 at -3.18799 -3.18799 -1.375 ordinal 1 at -1.56781 -1.56781 67.875 ordinal 1 at -3.18799 -3.18799 67.875 ordinal 1 at -3.18799 -3.18799 65.8656 ordinal 1 at -3.18799 -3.18799 67.1344 ordinal 1 at -2.82283 -2.82283 66.5 ordinal 1 at -2.82756 -2.3848 66.5 ordinal 1 at -2.3848 -2.82756 66.5 ordinal 1 ordered ) 
+group "steel_caps" add volume  ( at -1.82562 -1.82562 68.7578 ordinal 1 at -3.18799 -3.18799 68.7578 ordinal 1 ordered ) 
+group "steel" add volume  ( at -2.81718 -3.5588 66.5 ordinal 1 at -1.82562 -1.82562 67.875 ordinal 1 at -2.37114 -2.37114 67.1344 ordinal 1 at -3.18799 -3.18799 -1.375 ordinal 2 at -1.82563 -1.82562 -1.375 ordinal 1 at -3.18799 -3.18799 67.875 ordinal 2 at -3.16722 -0.99822 66.5 ordinal 1 at -0.99822 -3.16722 66.5 ordinal 1 at -3.18799 -3.18799 65.8656 ordinal 2 at -3.16722 -0.99822 65.8656 ordinal 1 at -2.37114 -2.37114 65.8656 ordinal 1 at -0.99822 -3.16722 65.8656 ordinal 1 at -3.18799 -3.18799 67.1344 ordinal 2 at -3.16722 -0.99822 67.1344 ordinal 1 at -1.99331 -2.98914 66.5 ordinal 1 at -2.98914 -1.99331 66.5 ordinal 1 at -0.99822 -3.16722 67.1344 ordinal 1 at -2.98914 -1.99331 65.8656 ordinal 1 at -2.98914 -1.99331 67.1344 ordinal 1 at -3.5588 -2.81718 66.5 ordinal 1 at -1.99331 -2.98914 65.8656 ordinal 1 at -1.99331 -2.98914 67.1344 ordinal 1 at -3.55315 -3.55315 66.5 ordinal 1 at -2.82756 -2.3848 67.1344 ordinal 1 at -2.3848 -2.82756 67.1344 ordinal 1 at -2.3848 -2.82756 65.8656 ordinal 1 at -2.82756 -2.3848 65.8656 ordinal 1 ordered ) 
+group "ext_fluid" add volume  ( at -6 -6 66.5 ordinal 1 at -6 -6 -1.375 ordinal 1 at -2.02262 -2.02262 75.2578 ordinal 1 at -6 -6 67.875 ordinal 1 at -6 -6 68.7578 ordinal 1 at -6 -6 65.8656 ordinal 1 at -6 -6 67.1344 ordinal 1 at -6 -6 75.2578 ordinal 1 at -2.28866 -3.00376 67.875 ordinal 1 at -3.00376 -2.28866 67.875 ordinal 1 at -2.28866 -3.00376 68.7578 ordinal 1 at -3.00376 -2.28866 68.7578 ordinal 1 ordered ) 
