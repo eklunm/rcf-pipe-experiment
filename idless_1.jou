@@ -76,5 +76,29 @@ webcut volume  ( at 0.25943 3.62524 66.5 ordinal 1 ordered )  with sheet extende
 # webcut volume all with plane yplane offset 0 rotate 45 about z noimprint nomerge
 imprint all
 merge all
-volume all size 0.15
-volume all scheme auto
+# volume 2 4 9 11 14 16 17 20 21 22 28 29 31 32 36 37 38 41 43 44  size 0.15
+volume  ( at 1.10861 1.56781 66.6156 ordinal 1 at 0.313055 4.5085 66.6156 ordinal 1 at 1.29091 2.93424 67.875 ordinal 1 at 0.428625 4.5085 66.6156 ordinal 1 at 0.25943 3.45925 66.5 ordinal 1 at 1.29091 1.82562 68.7578 ordinal 1 at 0.428625 4.5085 68.7578 ordinal 1 at 0.63443 3.56897 66.6156 ordinal 1 at 0.25943 3.45925 65.8656 ordinal 1 at 0.25943 3.45925 67.1344 ordinal 1 at 1.10861 1.56781 67.875 ordinal 1 at 0.313055 4.5085 67.875 ordinal 1 at 1.66591 2.89531 66.6156 ordinal 1 at 0.428625 4.5085 67.875 ordinal 1 at 1.10861 1.56781 65.8656 ordinal 1 at 0.313055 4.5085 65.8656 ordinal 1 at 0.428625 4.5085 65.8656 ordinal 1 at 0.63443 3.56897 65.8656 ordinal 1 at 1.66591 2.89531 65.8656 ordinal 1 at 0.25943 3.90466 66.5 ordinal 1 ordered )  size 0.15
+
+# volume 18 23 24 25 26  27 33 34 35 40 size 0.5
+volume  ( at 4.24264 9.77619 66.6156 ordinal 1 at 1.10861 1.56781 -1.375 ordinal 1 at 0.313055 4.5085 -1.375 ordinal 1 at 1.29091 2.93424 -1.375 ordinal 1 at 0.428625 4.5085 -1.375 ordinal 1 at 4.24264 9.77619 -1.375 ordinal 1 at 4.24264 8.48528 75.2578 ordinal 1 at 4.24264 9.77619 67.875 ordinal 1 at 4.24264 9.77619 68.7578 ordinal 1 at 4.24264 9.77619 65.8656 ordinal 1 ordered )  size 0.5
+
+# order mesh vol  36 2 28 16 44 38 11 32 37 4 29 17 22 14 21 40 18 34 35 20 41 9 31 43
+
+ mesh volume  ( at 1.10861 1.56781 65.8656 ordinal 1 at 1.10861 1.56781 66.6156 ordinal 1 at 1.10861 1.56781 67.875 ordinal 1 at 1.29091 1.82562 68.7578 ordinal 1 at 0.25943 3.90466 66.5 ordinal 1 at 0.428625 4.5085 65.8656 ordinal 1 at 0.428625 4.5085 66.6156 ordinal 1 at 0.428625 4.5085 67.875 ordinal 1 at 0.313055 4.5085 65.8656 ordinal 1 at 0.313055 4.5085 66.6156 ordinal 1 at 0.313055 4.5085 67.875 ordinal 1 at 0.428625 4.5085 68.7578 ordinal 1 at 0.25943 3.45925 67.1344 ordinal 1 at 0.25943 3.45925 66.5 ordinal 1 at 0.25943 3.45925 65.8656 ordinal 1 at 4.24264 9.77619 65.8656 ordinal 1 at 4.24264 9.77619 66.6156 ordinal 1 at 4.24264 9.77619 67.875 ordinal 1 at 4.24264 9.77619 68.7578 ordinal 1 at 0.63443 3.56897 66.6156 ordinal 1 at 0.63443 3.56897 65.8656 ordinal 1 at 1.29091 2.93424 67.875 ordinal 1 at 1.66591 2.89531 66.6156 ordinal 1 at 1.66591 2.89531 65.8656 ordinal 1 ordered ) 
+
+vol all size 1.5 
+mesh volume all
+
+
+# symmetry back
+volume all copy reflect plane xplane
+rotate volume all angle -45 about z include_merged
+
+volume all copy reflect plane xplane
+volume all copy reflect plane yplane
+
+merge all
+save as "pipe.cub" overwrite
+
+
+
