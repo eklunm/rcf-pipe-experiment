@@ -1,0 +1,253 @@
+reset
+#{InnerRadius=3.13563}
+#{OuterRadius=3.65125}
+#{Leng=137}
+#{PipeInnRad=0.62611}
+#{PipeOutRad=0.85725}
+
+#{CenterP=(OuterRadius+PipeOutRad)*sqrt(2.)/2}
+## Following for CenterP causes problems (commented out):
+##{CenterP=3.18799} 
+
+
+#{MoveZ=68.61557}
+##{height1=0.70104}
+##{height2=0.23114}
+#{height1=0.51562}
+#{height2=height1}
+#{supportSteel=0.75}
+#{support=0.51886}
+##{WebcutBox=1.8}
+##{WebcutBox=0.6}
+#{WebcutBox=0.8}
+#{OutsideWaterX=24}
+#{OutsideWaterY=24}
+##{OutsideWaterZ=Leng}
+#{OutsideWaterZ=150}
+##{OutsideBox=8.09048}
+##{OutsideBox=8.5}
+#{OutsideBox=11.44166654}
+#{OutsideBoxSmall=9}
+#{OutsideBox2=13}
+#{OutsideBox3=15}
+
+
+create cylinder height {Leng} radius {OuterRadius}
+create cylinder height {Leng} radius {InnerRadius}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeOutRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+create cylinder height {Leng} radius {PipeInnRad}
+subtract body 2 from body 1 keep
+delete volume 1
+move volume 3 7 x {CenterP} y {CenterP} include_merged
+move volume 4 8 x {-CenterP} y {CenterP} include_merged
+move volume 5 9 x {-CenterP} y {-CenterP} include_merged
+move volume 6 10 x {CenterP} y {-CenterP} include_merged
+subtract body 8 from body 4 keep
+delete volume 4
+subtract body 9 from body 5 keep
+delete volume 5
+subtract body 10 from body 6 keep
+delete volume 6
+subtract body 7 from body 3 keep
+delete volume 3
+create cylinder height {height1} radius {OuterRadius}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+create cylinder height {height2} radius {PipeOutRad}
+move volume 16 z {Leng/2 + height1/2} include_merged
+move volume 17 x {CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+move volume 18 x {-CenterP} y {CenterP} z {Leng/2 + height2/2} include_merged
+move volume 19 x {-CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+move volume 20 x {CenterP} y {-CenterP} z {Leng/2 + height2/2} include_merged
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {supportSteel*2} y {supportSteel*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+brick x {support*2} y {support*2} z 3
+rotate volume 21 22 23 24 25 26 27 28 angle 90 about x include_merged
+move volume 21 22 23 24 25 26 27 28 z {Leng/2 - 2} include_merged
+rotate volume 21 angle 45 about z include_merged
+rotate volume 24 23 28 27 angle 135 about z include_merged
+rotate volume 22 25 26 angle 45 about z include_merged
+move volume 23 27 x -2 y -2 include_merged
+move volume 24 28 x 2 y 2 include_merged
+move volume 25 21 x 2 y -2 include_merged
+move volume 22 26 x -2 y 2 include_merged
+
+# Remove outer portion of central pipe for connecting pipes:
+subtract vol 21 22 23 24 from 11 keep
+del vol 11
+
+# Separate connecting pipes from small outer pipes:
+subtract body 7 15 from body 24 keep
+delete volume 24
+subtract body 7 from body 28 keep
+delete volume 28
+subtract body 8 12 from body 22 keep
+delete volume 22
+subtract body 8 from body 26 keep
+delete volume 26
+subtract body 9 13 from body 23 keep
+delete volume 23
+subtract body 9 from body 27 keep
+delete volume 27
+subtract body 10 14 from body 21 keep
+delete volume 21
+subtract body 10 from body 25 keep
+delete volume 25
+
+# Remove fluid in connecting pipes from center pipe fluid:
+subtract vol 2 from 30 to 37 keep
+del vol 30 to 37
+
+# Create outer fluid and move it:
+brick x {OutsideWaterX} y {OutsideWaterY} z {OutsideWaterZ}
+#{if(Leng!=OutsideWaterZ)}
+move volume 46 z {(OutsideWaterZ-Leng)/2} include_merged
+#{endif}
+
+# Unite all other bodies from outer fluid and remove it:
+unite volume 2 to 45 keep
+sub vol 47 from 46
+
+# Remove connecting pipe inner fluid from connecting pipe:
+subtract body 45 from body 44 keep 
+del body 44
+subtract body 43 from body 42 keep 
+del body 42
+subtract body 41 from body 40 keep 
+del body 40
+subtract body 39 from body 38 keep 
+del body 38
+
+## START WEBCUTTING TO ALLOW FOR MESHING:
+
+
+webcut body 2 7 to 10 12 to 15 29 46  with sheet extended from surface 116  
+webcut body 2 7 to 10 12 to 15 29 46 with sheet extended from surface 114  
+webcut body 73 with sheet extended from surface 133
+webcut body 73 with sheet extended from surface 53 
+
+## Volumes 2 7 8 9 10 12 to 15 17 to 20 39 41 43 45 48 49 50 51 56 57 58 59 61 68 69 75 76 cannot mesh
+
+# Separate based on the inner fluid surfaces:
+webcut body 7 to 10 12 to 15 76 49 77 48 74 51 75 50 46 with sheet extended from surface 189
+webcut body 7 to 10 12 to 15 76 49 77 48 74 51 75 50 46 with sheet extended from surface 216
+
+## Volumes 12 to 15 39 41 43 45 48 49 50 51 88 90 92 94 cannot mesh
+
+webcut body 89 106 13 with sheet extended from surface 317
+webcut body 89 106 13 with sheet extended from surface 315
+
+webcut body 91 108 14 with sheet extended from surface 305
+webcut body 91 108 14 with sheet extended from surface 307
+
+webcut body 93 110 15 with sheet extended from surface 337
+webcut body 93 110 15 with sheet extended from surface 335
+
+webcut body 95 112 12 with sheet extended from surface 325
+webcut body 95 112 12 with sheet extended from surface 327
+
+## Volumes 39 41 43 45 cannot mesh
+
+webcut vol 39 sweep surface 56 perpendicular inward through_all
+webcut vol 41 sweep surface 59 perpendicular inward through_all
+webcut vol 43 sweep surface 62 perpendicular inward through_all
+webcut vol 45 sweep surface 65 perpendicular inward through_all
+
+## Volume(s) 90 128 135 49 50 51 76 did not mesh (using volume size 0.2 all)
+
+webcut vol 48 49 50 51 88 90 92 94 128 135 sweep surface 53 perpendicular inward through_all
+#webcut vol 49 50 51 90 128 135 sweep surface 53 perpendicular inward through_all
+webcut vol 76 to 78  sweep surface 479  perpendicular outward through_all 
+
+## Volume(s) 94 88 109 39 76 did not mesh. (using volume size 0.2 all)
+
+## Try cutting into fourths due to symmetry:
+create planar surface with plane yplane offset 0 
+create planar surface with plane xplane offset 0 
+section volume all with surface 1491
+section volume all with surface 1612
+## Delete remaining volumes:
+delete volume 60 57 68 113 93 134 183 166 51 132 177 17 137 15 135 144 12 140 50 142 176 141 182 18 139 175 169 179 20 110 48 125 165 181 59 71 53 86 96 103 73 65 54 56 72 108 149 45 109 67 70 168 41 174 100 83 171 112 111 39 173 64 91 90 124 128 127 150 148 102 99 133 7 156 145 92 155 131 97 115 154 94 153 114 8 146 138 136 161 162 79 126 130 159 129 10 14 80 143 82 85 160 164 163
+
+## Volume(s) 43 did not mesh.
+
+webcut vol 43 sweep surface 1640 perpendicular inward through_all
+
+## Delete extra volume:
+del vol 147
+
+
+## Chop up the outer fluid some more:
+brick x {OutsideBox} y {OutsideBox} z 1
+rotate volume 188 angle 45 about z include_merged
+move volume 188 x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface 1730 perpendicular outward through_all
+delete volume 188
+
+brick x {OutsideBox2} y {OutsideBox2} z 1
+rotate volume 196 angle 45 about z include_merged
+move volume 196 x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface 1806 perpendicular outward through_all
+delete volume 196
+
+brick x {OutsideBox3} y {OutsideBox3} z 1
+rotate volume 204 angle 45 about z include_merged
+move volume 204 x 0 y 0 z {-Leng/2 - 1/2}
+webcut body all sweep surface 1882 perpendicular outward through_all
+delete volume 204
+
+brick x {OutsideWaterX} y {OutsideWaterY} z {Leng*2}
+rotate volume 212 angle 315 about z include_merged
+move Volume 212 x 0 y {(2*OutsideWaterY)^1/2*0.707106781} z 0 include_merged 
+webcut body all sweep surface 1960  perpendicular outward through_all
+delete vol 212
+
+## Imprint and merge:
+imprint all
+merge all
+
+## Finest mesh (insides)
+volume all size 0.35
+# Coarser mesh (bigger inside)
+body 237 52 232 2 242 63 234 16 246 73 size 1
+## Finer Mesh (farther from inside)
+body 220 222 221 219 216 218 217 272 274 273 271 268 270 269 size 1
+## Coarser Mesh (farther from inside)
+body 279 281 280 278 275 277 276 228 230 229 227 224 226 225 size 3
+## Coarsest mesh (farthest from inside)
+body 241 249 236 252 258 259 257 184 186 185 113 46  96  62 size 5
+volume all scheme auto
+mesh volume all
+
+## Copy and reflect (causes Trelis to crash; commented out):
+volume all copy reflect plane yplane
+volume all copy reflect plane xplane
+
+merge all
+
+
+## Add to groups:
+group "int_fluid" add body 420 63 242 490 544 614 366 406 2 52 415 237 66 243 99 250 233 9 82 247 238 55 232 356 361 362 367 297 292 304 371 357 283 310 374 291 539 530 282 296 540 610 552 619 531 605 558 622 545 615 604 609 480 485 486 416 481 495 428 407 498 434 491 421 384 378 333 288 334 323 632 536 582 571 581 626 447 458 412 508 502 457 254 129 187 205 260 206 
+
+group "steel_caps" add body 235 19 410 483 607 534 606 482 409 16 234 358 285 533 359 286 
+
+group "steel" add body 487 496 417 429 446 501 443 441 438 442 499 422 408 445 437 444 449 503 492 448 488 612 542 294 364 239 363 293 541 611 451 575 565 562 566 620 625 567 623 616 546 561 568 569 573 572 532 559 553 570 326 320 308 556 548 300 315 563 535 287 321 313 305 322 284 311 298 368 375 377 372 319 317 314 318 327 379 324 369 312 299 306 115 123 244 69 122 240 88 76 105 245 170 253 251 248 102 127 128 85 58 125 114 126 171 124 61 418 432 77 90 424 439 107 72 411 325 617 493 554 430 547 423 560 436 307 380 162 176 177 256 159 538 627 628 555 574 504 431 450 435 414 255 290 
+
+group "ext_fluid" add body 576 629 651 601 594 644 587 549 618 637 494 513 425 463 520 470 477 527 505 452 184 228 279 257 272 265 212 220 73 246 370 301 389 396 403 381 328 353 346 339 295 543 551 631 613 489 507 303 289 537 302 309 557 564 316 550 383 608 630 624 497 484 500 506 427 186 259 365 373 360 376 382 241 249 236 258 252 621 419 433 413 440 426 62 96 46 113 185 648 598 599 649 647 597 600 650 652 602 603 653 350 351 349 352 354 355 400 401 399 402 404 405 281 230 479 529 525 523 528 526 474 475 473 476 478 524 225 276 226 277 275 224 227 278 280 229 269 217 218 270 216 268 219 271 221 273 222 274 393 343 394 344 392 342 395 345 397 347 398 348 591 641 592 642 590 640 593 643 595 645 596 646 517 467 518 468 516 466 519 469 521 471 522 472 262 210 209 263 208 261 264 211 213 266 267 214 460 510 461 511 509 459 462 512 464 514 465 515 634 584 635 633 636 638 639 585 583 586 588 589 336 386 337 387 335 385 340 338 388 390 391 341 332 330 331 329 579 580 577 578 454 456 455 453 189 197 199 191 
+
+
+
+
+
